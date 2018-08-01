@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/DerbyServer/lib/derby.jar"/>
+	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/DerbyServer/lib/derbyclient.jar"/>
+	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/DerbyServer/lib/derbynet.jar"/>
+	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/DerbyServer/lib/derbyoptionaltools.jar"/>
+	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/DerbyServer/lib/derbyrun.jar"/>
+	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/DerbyServer/lib/derbytools.jar"/>
+	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/Connector J 8.0/mysql-connector-java-8.0.11.jar"/>
+	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/H2/h2-1.4.196.jar"/>
+	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/IBM DB2/db2jcc4.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
