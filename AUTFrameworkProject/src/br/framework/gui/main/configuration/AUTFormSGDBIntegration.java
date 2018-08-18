@@ -12,7 +12,6 @@ import br.framework.api.runtime.AUTRuntimeConfiguration;
 import br.framework.gui.eventos.AUTEventsWindowManage;
 import br.framework.gui.logs.AUTLogsManage;
 
-import org.apache.derby.jdbc.EmbeddedDriver;
 
 /**
  * Classe responsável pelo gerenciamento de conexões com a base de dados
