@@ -2,7 +2,7 @@ package br.softtek.framework.main.configuracao.db;
 
 import java.awt.event.ActionEvent;
 
-import br.softtek.framework.api.AUTAPI;
+import br.softtek.framework.api.AUTAPIGUI;
 
 /**
  * 

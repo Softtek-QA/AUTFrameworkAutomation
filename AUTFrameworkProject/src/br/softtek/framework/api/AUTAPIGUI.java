@@ -17,7 +17,7 @@ import br.softtek.framework.logs.AUTGerenciadorLogs;
  * @author Softtek - QA
  *
  */
-public class AUTAPI {
+public class AUTAPIGUI {
 
 	/**
 	 * 
@@ -312,7 +312,7 @@ public class AUTAPI {
 			javax.swing.DefaultListModel lista = null;
 
 
-			String resultProc = AUTAPI.AUTProcessoExternoUtils.executarProcesso(comandoInicializacao).toString();
+			String resultProc = AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(comandoInicializacao).toString();
 
 			String[] lineResult = resultProc.split("\n");
 
@@ -335,7 +335,7 @@ public class AUTAPI {
 			javax.swing.DefaultListModel lista = null;
 
 
-			String resultProc = AUTAPI.AUTProcessoExternoUtils.executarProcesso(comandoInicializacao).toString();
+			String resultProc = AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(comandoInicializacao).toString();
 
 			String[] lineResult = resultProc.split("\n");
 
@@ -373,7 +373,7 @@ public class AUTAPI {
 			javax.swing.JOptionPane.showConfirmDialog(null,mensagem,titulo,JOptionPane.YES_OPTION,JOptionPane.INFORMATION_MESSAGE);
 		}
 
-		public static void exibirMensagem(AUTAPI.AUTFormularioUtils.AUT_TIPO_MSG_USUARIO tipoMensagem,String titulo,String mensagem) {
+		public static void exibirMensagem(AUTAPIGUI.AUTFormularioUtils.AUT_TIPO_MSG_USUARIO tipoMensagem,String titulo,String mensagem) {
 			if(tipoMensagem.equals(AUT_TIPO_MSG_USUARIO.INFORMATIVA)) {
 				javax.swing.JOptionPane.showConfirmDialog(null,mensagem,titulo,JOptionPane.YES_OPTION,JOptionPane.INFORMATION_MESSAGE);
 			}

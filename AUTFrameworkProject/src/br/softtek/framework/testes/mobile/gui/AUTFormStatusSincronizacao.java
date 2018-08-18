@@ -3,8 +3,8 @@ package br.softtek.framework.testes.mobile.gui;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 
-import br.softtek.framework.api.AUTAPI;
-import br.softtek.framework.api.AUTAPI.*;
+import br.softtek.framework.api.AUTAPIGUI;
+import br.softtek.framework.api.AUTAPIGUI.*;
 
 import br.softtek.framework.testes.mobile.gui.AUTFormMobileTesteManual.*;
 
@@ -100,30 +100,30 @@ public class AUTFormStatusSincronizacao {
 					//AUTAPI.AUTFormularioUtils.exibirMensagem("Softtek : Assistente de Configuração", "Iremos iniciar a sincronização de imagens e videos\naproximadamente " + (AUTDispositivoConfiguracao.AUTDadosTransferenciaArquivos.size() * 2));
 					
 					for(String evdAtual:AUTDispositivoConfiguracao.AUTDadosTransferenciaArquivos.keySet()) {
-						AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb pull \"%s\" \"%s\"",
+						AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb pull \"%s\" \"%s\"",
 								evdAtual,diretorio));
 						//Adicionando arquivo status atual
 						dados.addElement(evdAtual);
 						barraProgresso.setValue(barraProgresso.getValue()+1);
-						AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb pull \"%s\" \"%s\"",
+						AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb pull \"%s\" \"%s\"",
 								AUTDispositivoConfiguracao.AUTDadosTransferenciaArquivos.get(evdAtual),
 								diretorio
 								));
 						//Adicionando arquivo resultado esperado
 						dados.addElement(AUTDispositivoConfiguracao.AUTDadosTransferenciaArquivos.get(evdAtual));
 						barraProgresso.setValue(barraProgresso.getValue()+1);
-						AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell rm \"%s\"",
+						AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell rm \"%s\"",
 								evdAtual));
 						
-						AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell rm \"%s\"",
+						AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell rm \"%s\"",
 								AUTDispositivoConfiguracao.AUTDadosTransferenciaArquivos.get(evdAtual)
 								));
 					}
 										
-					System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb pull \"%s\" \"%s\"",
+					System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb pull \"%s\" \"%s\"",
 							AUTDispositivoConfiguracao.ANDROID_ARQUIVO_VIDEO_PADRAO,diretorio)));
 					
-					System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell rm \"%s\"",
+					System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell rm \"%s\"",
 							AUTDispositivoConfiguracao.ANDROID_ARQUIVO_VIDEO_PADRAO
 							)));
 					

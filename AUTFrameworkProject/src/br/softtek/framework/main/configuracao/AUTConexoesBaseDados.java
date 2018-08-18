@@ -5,11 +5,11 @@ import java.awt.event.ItemEvent;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 
-import br.softtek.framework.api.AUTAPI;
-import br.softtek.framework.api.AUTAPI.*;
+import br.softtek.framework.api.AUTAPIGUI;
+import br.softtek.framework.api.AUTAPIGUI.*;
 import br.softtek.framework.gui.eventos.AUTEventosJanela;
 import br.softtek.framework.logs.AUTGerenciadorLogs;
-import br.softtek.framework.api.AUTAPI.AUTJDBCConector.*;
+import br.softtek.framework.api.AUTAPIGUI.AUTJDBCConector.*;
 import br.softtek.framework.api.runtime.AUTRuntimeConfiguration;
 
 import org.apache.derby.jdbc.EmbeddedDriver;
@@ -161,7 +161,7 @@ public class AUTConexoesBaseDados {
 		
 		
 		configLayout.anchor = configLayout.LINE_START;
-		configLayout.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
+		configLayout.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
 		
 		
 		
@@ -277,7 +277,7 @@ public class AUTConexoesBaseDados {
 		botaoArquivoJar.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				txtArquivoJar.setText(AUTAPI.gerarCaixaDialog(formularioConexao, new String[] {"jar"}));
+				txtArquivoJar.setText(AUTAPIGUI.gerarCaixaDialog(formularioConexao, new String[] {"jar"}));
 			}
 		});
 		

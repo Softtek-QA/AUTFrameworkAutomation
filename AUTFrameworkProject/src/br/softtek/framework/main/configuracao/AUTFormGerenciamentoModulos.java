@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.event.ChangeEvent;
 
-import br.softtek.framework.api.AUTAPI;
+import br.softtek.framework.api.AUTAPIGUI;
 
 /**
  * 
@@ -125,7 +125,7 @@ public class AUTFormGerenciamentoModulos {
 		configLayoutMod.weightx = 0;
 		configLayoutMod.weighty = 0;
 		configLayoutMod.fill = configLayoutMod.NONE;
-		configLayoutMod.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
+		configLayoutMod.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
 		
 		pnModuloInput.add(lbNomeMod,configLayoutMod);
 		configLayoutMod.gridx = 1;
@@ -180,7 +180,7 @@ public class AUTFormGerenciamentoModulos {
 		
 		formGerenciamentoModulos.getContentPane().setBackground(java.awt.Color.WHITE);
 		
-		configLayout.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);		
+		configLayout.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);		
 		configLayout.gridx = 0;
 		configLayout.gridy = 0;
 		configLayout.weightx = 1;

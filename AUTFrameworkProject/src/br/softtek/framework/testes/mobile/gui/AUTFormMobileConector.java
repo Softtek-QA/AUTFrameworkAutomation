@@ -33,15 +33,15 @@ import javax.swing.tree.TreeNode;
 import javax.xml.parsers.ParserConfigurationException;
 import org.h2.tools.Script;
 import org.xml.sax.SAXException;
-import br.softtek.framework.api.AUTAPI;
-import br.softtek.framework.api.AUTAPI.AUTFormularioUtils;
-import br.softtek.framework.api.AUTAPI.AUTProcessoParalelo;
-import br.softtek.framework.api.AUTAPI.AUTFormularioUtils.AUT_TIPO_MSG_USUARIO;
+import br.softtek.framework.api.AUTAPIGUI;
+import br.softtek.framework.api.AUTAPIGUI.AUTFormularioUtils;
+import br.softtek.framework.api.AUTAPIGUI.AUTProcessoParalelo;
+import br.softtek.framework.api.AUTAPIGUI.AUTFormularioUtils.AUT_TIPO_MSG_USUARIO;
 import br.softtek.framework.api.runtime.AUTRuntimeConfiguration;
 import br.softtek.framework.testes.mobile.gui.AUTFormMobileConector.*;
 import br.softtek.framework.testes.mobile.gui.AUTFormMobileConector.AUTDispositivoConfiguracao.*;
 import br.softtek.framework.testes.mobile.gui.AUTFormMobileTesteManual.AUTDadosConexao;
-import br.softtek.framework.api.AUTAPI.*; 
+import br.softtek.framework.api.AUTAPIGUI.*; 
 
 
 /**
@@ -189,7 +189,7 @@ public class AUTFormMobileConector {
 				case LIST_DISPOSITIVOS:{
 					try {
 
-						String[] devices = AUTAPI.AUTProcessoExternoUtils.executarProcesso("adb devices").toString().split("\n");
+						String[] devices = AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso("adb devices").toString().split("\n");
 
 						for(String dev : devices) {
 							if(!dev.contains("List of")) {
@@ -233,7 +233,7 @@ public class AUTFormMobileConector {
 
 					cmdAndroid = "adb shell printenv HOSTNAME";
 
-					return AUTAPI.AUTProcessoExternoUtils.executarProcesso(cmdAndroid).toString();
+					return AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(cmdAndroid).toString();
 				}
 				default:{
 					break;					
@@ -243,10 +243,10 @@ public class AUTFormMobileConector {
 				cmdOutput = "";
 
 				if(ipv4) {
-					cmdOutput = AUTAPI.AUTProcessoExternoUtils.executarProcesso(cmdAndroid).toString();
+					cmdOutput = AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(cmdAndroid).toString();
 				}
 				else if(ipRede) {
-					cmdOutput = formatarIPRede(AUTAPI.AUTProcessoExternoUtils.executarProcesso(cmdAndroid).toString()).toString();
+					cmdOutput = formatarIPRede(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(cmdAndroid).toString()).toString();
 					if(cmdOutput.trim().isEmpty()) {
 						cmdOutput = "ERROIPREDE";
 					}
@@ -318,7 +318,7 @@ public class AUTFormMobileConector {
 
 			}
 			else {
-				AUTAPI.AUTFormularioUtils.exibirMensagem("SOFTTEK QA - ASSISTENTE DE CONEXÃO", "O dispositivo selecionado não possui um IP de conexão válido : \n" + 
+				AUTAPIGUI.AUTFormularioUtils.exibirMensagem("SOFTTEK QA - ASSISTENTE DE CONEXÃO", "O dispositivo selecionado não possui um IP de conexão válido : \n" + 
 						"\b1º - Habilitar conexão WIFI\n"
 						+ "\b2º - Verifique nas opções avançadas de configuração de rede se um IP foi atribuido a conexão\n"
 						+ "\b3º - O computador e o dispositivo devem está conectados na mesma rede\n"
@@ -357,7 +357,7 @@ public class AUTFormMobileConector {
 
 			}
 			else {
-				AUTAPI.AUTFormularioUtils.exibirMensagem("SOFTTEK QA - ASSISTENTE DE CONEXÃO", "O dispositivo selecionado não possui um IP de conexão válido : \n" + 
+				AUTAPIGUI.AUTFormularioUtils.exibirMensagem("SOFTTEK QA - ASSISTENTE DE CONEXÃO", "O dispositivo selecionado não possui um IP de conexão válido : \n" + 
 						"\b1º - Habilitar conexão WIFI\n"
 						+ "\b2º - Verifique nas opções avançadas de configuração de rede se um IP foi atribuido a conexão\n"
 						+ "\b3º - O computador e o dispositivo devem está conectados na mesma rede\n"
@@ -381,7 +381,7 @@ public class AUTFormMobileConector {
 				if(cmd.contains("kill")) {
 					System.out.println("INFO : PROCEDIMENTO CRÍTICO DE FINALIZACAO");
 					for(contTentativas = 0,totTentativas = 3;contTentativas < totTentativas;contTentativas++) {
-						AUTAPI.AUTProcessoExternoUtils.executarProcesso(cmd);
+						AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(cmd);
 					}
 					
 					totTentativas = totTentativasPadrao;
@@ -389,7 +389,7 @@ public class AUTFormMobileConector {
 				}
 				else {
 					for(contTentativas = 1;contTentativas <= totTentativas; contTentativas++) {
-						System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(cmd));
+						System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(cmd));
 					}
 				}
 				
@@ -429,9 +429,9 @@ public class AUTFormMobileConector {
 			porta = porta.trim();
 			IP = IP.trim();
 
-			System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso("adb -d tcpip ".concat(porta)));
-			System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso("adb -d connect ".concat(IP).concat(":").concat(porta)));
-			System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso("adb -d connect ".concat(IP).concat(":").concat(porta)));
+			System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso("adb -d tcpip ".concat(porta)));
+			System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso("adb -d connect ".concat(IP).concat(":").concat(porta)));
+			System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso("adb -d connect ".concat(IP).concat(":").concat(porta)));
 
 			AUTFormularioUtils.exibirMensagem("Softtek - QA : Assistente de Configuração", "COMANDOS DE CONFIGURAÇÃO TCP IP EXECUTADOS:\n"
 					+ "\b* DESCONECT O DISPOSITIVO DA PORTA USB E FAÇA O TESTE DE CONEXÃO");
@@ -448,14 +448,14 @@ public class AUTFormMobileConector {
 			System.out.println(IP);
 			System.out.println(porta);
 			
-			System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s tcpip %s",nomeDispositivo,porta)));
-			String outConsole = AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb connect %s:%s",IP,porta)).toString();
+			System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s tcpip %s",nomeDispositivo,porta)));
+			String outConsole = AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb connect %s:%s",IP,porta)).toString();
 			
 			int numTentativas = 4;
 			int contTentativas = 0;
 			while(outConsole.contains("unable to connect") || outConsole.isEmpty() || !outConsole.contains("connected")) {
 				
-				outConsole = AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb connect %s:%s",IP,porta)).toString();
+				outConsole = AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb connect %s:%s",IP,porta)).toString();
 				System.out.println(outConsole);
 				try {
 					java.lang.Thread.currentThread().sleep(1000);
@@ -477,15 +477,15 @@ public class AUTFormMobileConector {
 		
 
 		public static void disconectarTCPIP(String IP,Integer porta) {
-			System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso("adb -d disconnect ".concat(IP).concat(":").concat(porta.toString())));
-			System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso("adb -d usb"));
+			System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso("adb -d disconnect ".concat(IP).concat(":").concat(porta.toString())));
+			System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso("adb -d usb"));
 			AUTFormularioUtils.exibirMensagem("Softtek - QA : Assistente de Configuração", "COMANDOS DE CONFIGURAÇÃO TCP IP EXECUTADOS:\n" +
 					"\b* DESCONECT O DISPOSITIVO DA PORTA USB E FAÇA O TESTE DE CONEXÃO");
 		}
 
 		public static javax.swing.DefaultListModel carregarAplicativosInstalados(){
 			javax.swing.DefaultListModel ddOut = new javax.swing.DefaultListModel();
-			java.lang.StringBuffer appsInst = AUTAPI.AUTProcessoExternoUtils.executarProcesso("adb shell pm list packages");
+			java.lang.StringBuffer appsInst = AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso("adb shell pm list packages");
 			String[] appItens = appsInst.toString().split("\n");
 
 			java.util.regex.Pattern padrao = java.util.regex.Pattern.compile("(\\w+\\..*)+");
@@ -501,7 +501,7 @@ public class AUTFormMobileConector {
 		
 		public static javax.swing.DefaultListModel carregarAplicativosInstalados(String nomeDispositivo){
 			javax.swing.DefaultListModel ddOut = new javax.swing.DefaultListModel();
-			java.lang.StringBuffer appsInst = AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s shell pm list packages",nomeDispositivo));
+			java.lang.StringBuffer appsInst = AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s shell pm list packages",nomeDispositivo));
 			String[] appItens = appsInst.toString().split("\n");
 
 			java.util.regex.Pattern padrao = java.util.regex.Pattern.compile("(\\w+\\..*)+");
@@ -538,11 +538,11 @@ public class AUTFormMobileConector {
 		public void inicializarConfiguracoes(String nomeDispositivo) {	
 			int totTentativas = 2;
 			for(int tentativas = 0;tentativas < totTentativas;tentativas++) {
-				AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s shell %s;\n",nomeDispositivo,ANDROID_ESTRUTURA_ARQUIVOS));
+				AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s shell %s;\n",nomeDispositivo,ANDROID_ESTRUTURA_ARQUIVOS));
 			}
 
 			
-			AUTAPI.AUTProcessoExternoUtils.executarProcesso(ESTACAO_LOCAL_ESTRUTURA_ARQUIVOS);
+			AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(ESTACAO_LOCAL_ESTRUTURA_ARQUIVOS);
 			
 		}
 
@@ -593,15 +593,15 @@ public class AUTFormMobileConector {
 			java.util.regex.Matcher analiseExp;
 			System.out.println("INFO : PROCESSANDO CONTEUDO DE CONFIGURAÇÃO DO TECLADO MOBILE");
 
-			String[] teclados = AUTAPI.AUTProcessoExternoUtils.executarProcesso("adb shell cd system/usr/keychars;ls;").toString().split("\n");
-			String[] tecladosLayout	 = AUTAPI.AUTProcessoExternoUtils.executarProcesso("adb shell cd system/usr/keylayout;ls;").toString().split("\n");
+			String[] teclados = AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso("adb shell cd system/usr/keychars;ls;").toString().split("\n");
+			String[] tecladosLayout	 = AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso("adb shell cd system/usr/keylayout;ls;").toString().split("\n");
 
 			for(String configItem : teclados) {
 				if(!configItem.trim().isEmpty()) {
 					System.out.println("INFO : CONFIGURACAO ENCONTRADA : ".concat(configItem));
 					//String tecladoConfig = AUTAPI.AUTProcessoExternoUtils.executarProcesso("adb shell cat system/usr/keychars/".concat(configItem)).toString();
 					System.out.println("INFO : ARQUIVO : ".concat(configItem));
-					analiseExp = padrao.matcher(AUTAPI.AUTProcessoExternoUtils.executarProcesso("adb shell cat system/usr/keychars/".concat(configItem)));
+					analiseExp = padrao.matcher(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso("adb shell cat system/usr/keychars/".concat(configItem)));
 
 					while(analiseExp.find()) {
 						String cmd = analiseExp.group().trim().split("key ")[1];
@@ -625,14 +625,14 @@ public class AUTFormMobileConector {
 			java.util.regex.Matcher analiseExp;
 			System.out.println("INFO : PROCESSANDO CONTEUDO DE CONFIGURAÇÃO DO TECLADO MOBILE");
 
-			String[] teclados = AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s shell cd system/usr/keychars;ls;",nomeDispositivo)).toString().split("\n");
-			String[] tecladosLayout	 = AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s shell cd system/usr/keylayout;ls;",nomeDispositivo)).toString().split("\n");
+			String[] teclados = AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s shell cd system/usr/keychars;ls;",nomeDispositivo)).toString().split("\n");
+			String[] tecladosLayout	 = AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s shell cd system/usr/keylayout;ls;",nomeDispositivo)).toString().split("\n");
 
 			for(String configItem : teclados) {
 				if(!configItem.trim().isEmpty()) {
 					System.out.println("INFO : CONFIGURACAO ENCONTRADA : ".concat(configItem));
 					System.out.println("INFO : ARQUIVO : ".concat(configItem));
-					analiseExp = padrao.matcher(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s shell cat system/usr/keychars/".concat(configItem),nomeDispositivo)));
+					analiseExp = padrao.matcher(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s shell cat system/usr/keychars/".concat(configItem),nomeDispositivo)));
 
 					while(analiseExp.find()) {
 						String cmd = analiseExp.group().trim().split("key ")[1];
@@ -686,13 +686,13 @@ public class AUTFormMobileConector {
 
 					String fileImg  = String.format(autAdbConfig.ESTACAO_LOCAL_TEMP_FILE_IMG_AVT,autAdbConfig.ANDROID_ID_IMG);
 
-					System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell screencap \"%s\"",autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV)));
+					System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell screencap \"%s\"",autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV)));
 
-					System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb pull \"%s\" \"%s\"",autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV,fileImg)));
+					System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb pull \"%s\" \"%s\"",autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV,fileImg)));
 
-					System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell rm \"%s\"",autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV)));
+					System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell rm \"%s\"",autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV)));
 
-					img = new AUTAPI.AUTPainelImagem(fileImg,escalaReducao);
+					img = new AUTAPIGUI.AUTPainelImagem(fileImg,escalaReducao);
 
 					return img;				
 				}
@@ -705,13 +705,13 @@ public class AUTFormMobileConector {
 
 					String fileImg  = String.format(autAdbConfig.ESTACAO_LOCAL_TEMP_FILE_IMG_AVT,autAdbConfig.ANDROID_ID_IMG);
 
-					System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell screencap \"%s\"",autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV)));
+					System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell screencap \"%s\"",autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV)));
 
-					System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb pull \"%s\" \"%s\"",autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV,fileImg)));
+					System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb pull \"%s\" \"%s\"",autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV,fileImg)));
 
-					System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell rm \"%s\"",autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV)));
+					System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell rm \"%s\"",autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV)));
 
-					img = new AUTAPI.AUTPainelImagem(fileImg,autAdbConfig.ANDROID_PERCENTUAL_REDUCAO_CAP_IMG);
+					img = new AUTAPIGUI.AUTPainelImagem(fileImg,autAdbConfig.ANDROID_PERCENTUAL_REDUCAO_CAP_IMG);
 
 					return img;				
 				}
@@ -726,13 +726,13 @@ public class AUTFormMobileConector {
 
 					String fileImg  = String.format(autAdbConfig.ESTACAO_LOCAL_TEMP_FILE_IMG_AVT,autAdbConfig.ANDROID_ID_IMG);
 
-					System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s shell screencap \"%s\"",nomeDispositivo,autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV)));
+					System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s shell screencap \"%s\"",nomeDispositivo,autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV)));
 
-					System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s pull \"%s\" \"%s\"",nomeDispositivo,autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV,fileImg)));
+					System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s pull \"%s\" \"%s\"",nomeDispositivo,autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV,fileImg)));
 
-					System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s shell rm \"%s\"",nomeDispositivo,autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV)));
+					System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s shell rm \"%s\"",nomeDispositivo,autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV)));
 
-					img = new AUTAPI.AUTPainelImagem(fileImg,autAdbConfig.ANDROID_PERCENTUAL_REDUCAO_CAP_IMG);
+					img = new AUTAPIGUI.AUTPainelImagem(fileImg,autAdbConfig.ANDROID_PERCENTUAL_REDUCAO_CAP_IMG);
 
 					return img;				
 				}
@@ -744,13 +744,13 @@ public class AUTFormMobileConector {
 
 					String fileImg  = String.format(autAdbConfig.ESTACAO_LOCAL_TEMP_FILE_IMG_AVT_CUSTOM,idImagem);
 
-					System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell screencap \"%s\"",autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV_CUSTOM)));
+					System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell screencap \"%s\"",autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV_CUSTOM)));
 
-					System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb pull \"%s\" \"%s\"",autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV_CUSTOM,fileImg)));
+					System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb pull \"%s\" \"%s\"",autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV_CUSTOM,fileImg)));
 
-					System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell rm \"%s\"",autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV_CUSTOM)));
+					System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell rm \"%s\"",autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV_CUSTOM)));
 
-					img = new AUTAPI.AUTPainelImagem(fileImg,0,0,largura,altura);
+					img = new AUTAPIGUI.AUTPainelImagem(fileImg,0,0,largura,altura);
 
 					return img;				
 				}
@@ -770,13 +770,13 @@ public class AUTFormMobileConector {
 						
 						String fileImg  = String.format(autAdbConfig.ESTACAO_LOCAL_TEMP_FILE_IMG_AVT_CUSTOM_RTIME,nmDev,idImagemTemp);
 		
-						System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s shell screencap \"%s\"",nomeDispositivo,autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV_CUSTOM)));
+						System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s shell screencap \"%s\"",nomeDispositivo,autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV_CUSTOM)));
 		
-						System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s pull \"%s\" \"%s\"",nomeDispositivo,autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV_CUSTOM,fileImg)));
+						System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s pull \"%s\" \"%s\"",nomeDispositivo,autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV_CUSTOM,fileImg)));
 		
-						System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s shell rm \"%s\"",nomeDispositivo,autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV_CUSTOM)));
+						System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb -s %s shell rm \"%s\"",nomeDispositivo,autAdbConfig.ANDROID_PASTA_ADB_IMG_ATV_CUSTOM)));
 		
-						img = new AUTAPI.AUTPainelImagem(fileImg,0,0,largura,altura);
+						img = new AUTAPIGUI.AUTPainelImagem(fileImg,0,0,largura,altura);
 
 					}
 					catch(java.lang.Exception e) {
@@ -968,8 +968,8 @@ public class AUTFormMobileConector {
 
 				System.out.println("*************** CARREGANDO XML GUI  DE CONFIGURAÇÃO DO APP: INICIO ***************************************");
 
-				System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(autAdbConfig.ANDROID_SHELL_EXEC_GET_FILE_GUI));
-				System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(autAdbConfig.ANDROID_SHELL_COPY_FILE_GUI));
+				System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(autAdbConfig.ANDROID_SHELL_EXEC_GET_FILE_GUI));
+				System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(autAdbConfig.ANDROID_SHELL_COPY_FILE_GUI));
 				System.out.println("*************** CARREGANDO XML GUI  DE CONFIGURAÇÃO DO APP: INICIO ***************************************");
 
 				return autAdbConfig.ANDROID_PASTA_LOCAL_XML_GUI_OBJECT;
@@ -981,8 +981,8 @@ public class AUTFormMobileConector {
 
 				System.out.println("*************** CARREGANDO XML GUI  DE CONFIGURAÇÃO DO APP: INICIO ***************************************");
 
-				System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format(autAdbConfig.ANDROID_SHELL_EXEC_GET_FILE_GUI_CUSTOM.toString(),nomeDispositivo)));
-				System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format(autAdbConfig.ANDROID_SHELL_COPY_FILE_GUI_CUSTOM.toString(),nomeDispositivo)));
+				System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format(autAdbConfig.ANDROID_SHELL_EXEC_GET_FILE_GUI_CUSTOM.toString(),nomeDispositivo)));
+				System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format(autAdbConfig.ANDROID_SHELL_COPY_FILE_GUI_CUSTOM.toString(),nomeDispositivo)));
 				System.out.println("*************** CARREGANDO XML GUI  DE CONFIGURAÇÃO DO APP: INICIO ***************************************");
 
 				return autAdbConfig.ANDROID_PASTA_LOCAL_XML_GUI_OBJECT;
@@ -1086,7 +1086,7 @@ public class AUTFormMobileConector {
 		javax.swing.JLabel lbTerminalCMD = new javax.swing.JLabel("TERMINAL DE COMANDOS INTERATIVOS ANDROID:");
 		javax.swing.JList ltTerminalComandos = new javax.swing.JList();
 		javax.swing.JScrollPane scrTerminalComandos = new javax.swing.JScrollPane(ltTerminalComandos,javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		java.util.Stack<AUTAPI.AUTPainelImagem> pnImagens = new java.util.Stack<AUTAPI.AUTPainelImagem>();
+		java.util.Stack<AUTAPIGUI.AUTPainelImagem> pnImagens = new java.util.Stack<AUTAPIGUI.AUTPainelImagem>();
 		javax.swing.JPanel pnControlesDevices = new javax.swing.JPanel();
 		javax.swing.JPanel pnControlesApps = new javax.swing.JPanel();
 		javax.swing.JPanel pnControlesTeclado = new javax.swing.JPanel();
@@ -1275,7 +1275,7 @@ public class AUTFormMobileConector {
 		txtTempoSincronizacaoIMG.setText("3");
 
 
-		configLayoutConfigParam.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
+		configLayoutConfigParam.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
 		configLayoutConfigParam.gridx = 0;
 		configLayoutConfigParam.gridy = 0;
 		configLayoutConfigParam.weightx = 0;
@@ -1330,7 +1330,7 @@ public class AUTFormMobileConector {
 					ltApps.setModel(autAdbConfig.carregarAplicativosInstalados(ltDevices.getSelectedValue().toString()));
 				}
 				else {
-					AUTAPI.AUTFormularioUtils.exibirMensagem("SOFTTEK : ASSISTENTE DE CONFIGURAÇÃO", "SELECIONE O DISPOSITIVO QUE DESEJA VISUALIZAR OS APPS INSTALADOS!!!");
+					AUTAPIGUI.AUTFormularioUtils.exibirMensagem("SOFTTEK : ASSISTENTE DE CONFIGURAÇÃO", "SELECIONE O DISPOSITIVO QUE DESEJA VISUALIZAR OS APPS INSTALADOS!!!");
 				}
 
 			}
@@ -1397,7 +1397,7 @@ public class AUTFormMobileConector {
 					}					
 				}
 				else {
-					AUTAPI.AUTFormularioUtils.exibirMensagem("ASSISTENTE DE CONFIGURAÇÃO", "SELECIONE O DISPOSITIVO PARA CAPTURAR DE TELA");
+					AUTAPIGUI.AUTFormularioUtils.exibirMensagem("ASSISTENTE DE CONFIGURAÇÃO", "SELECIONE O DISPOSITIVO PARA CAPTURAR DE TELA");
 				}
 				
 			}
@@ -1465,7 +1465,7 @@ public class AUTFormMobileConector {
 					autAdbObject.carregarArvoreObjetosXML(autAdbObject.carregarXMLConfiguracao(ltDevices.getSelectedValue().toString()), treeObjetosGUI);
 				}
 				else {
-					AUTAPI.AUTFormularioUtils.exibirMensagem("SOFTTEK: ASSISTENTE DE CONFIGURAÇÃO", "SELECIONE UM DOS DISPOSITIVOS CONECTADOS PARA EXECUTAR ESSE COMANDO!!!!");
+					AUTAPIGUI.AUTFormularioUtils.exibirMensagem("SOFTTEK: ASSISTENTE DE CONFIGURAÇÃO", "SELECIONE UM DOS DISPOSITIVOS CONECTADOS PARA EXECUTAR ESSE COMANDO!!!!");
 				}
 				
 			}
@@ -1512,7 +1512,7 @@ public class AUTFormMobileConector {
 		configOps.gridy = 0;
 		configOps.weightx = 1;
 		configOps.fill = configOps.HORIZONTAL;
-		configOps.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(10);
+		configOps.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(10);
 		barraFerramentas.add(chkTela,configOps);	
 
 		chkTela.setSelected(true);
@@ -1559,7 +1559,7 @@ public class AUTFormMobileConector {
 		pnControlesGerenciamento.setLayout(new javax.swing.BoxLayout(pnControlesGerenciamento,javax.swing.BoxLayout.Y_AXIS));
 		pnControlesGerenciamento.setBackground(java.awt.Color.WHITE);
 
-		configPainelGerenciamento.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
+		configPainelGerenciamento.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
 		configPainelGerenciamento.gridx = 0;
 		configPainelGerenciamento.gridy = 0;		
 		configPainelGerenciamento.weightx = 1;
@@ -1599,7 +1599,7 @@ public class AUTFormMobileConector {
 
 
 
-		configLayout.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
+		configLayout.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
 		configLayout.gridx = 1;
 		configLayout.gridy = 2;
 		configLayout.weightx = 1;
@@ -1692,7 +1692,7 @@ public class AUTFormMobileConector {
 					}
 				}
 				else {
-					AUTAPI.AUTFormularioUtils.exibirMensagem("SOFTTEK: ASSISTENTE DE CONFIGURAÇÃO", "SELECIONE UM DISPOSITIVO PARA CARREGAR AS CONFIGURAÇÕES DE TECLADO");
+					AUTAPIGUI.AUTFormularioUtils.exibirMensagem("SOFTTEK: ASSISTENTE DE CONFIGURAÇÃO", "SELECIONE UM DISPOSITIVO PARA CARREGAR AS CONFIGURAÇÕES DE TECLADO");
 				}
 
 			}
@@ -1735,7 +1735,7 @@ public class AUTFormMobileConector {
 					
 				}
 				else {
-					AUTAPI.AUTFormularioUtils.exibirMensagem("MOBILE : ASSISTENTE DE CONFIGURAÇÃO", "SELECIONE O DISPOSITIVO QUE DESEJA GERENCIAR!!!!");
+					AUTAPIGUI.AUTFormularioUtils.exibirMensagem("MOBILE : ASSISTENTE DE CONFIGURAÇÃO", "SELECIONE O DISPOSITIVO QUE DESEJA GERENCIAR!!!!");
 				}
 
 			}
@@ -1764,7 +1764,7 @@ public class AUTFormMobileConector {
 				Integer portaConexao = 60001;						
 				for(String hst : hosts) {
 					String ip1 = String.format(AUT_ANDROID_CONFIGURACAO_IP.IP_IPV4_MULT_CONECT_DINAMICA.toString(),hst);
-					ip1 = AUTAPI.AUTProcessoExternoUtils.executarProcesso(ip1).toString();
+					ip1 = AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(ip1).toString();
 					
 					
 					if(!ip1.trim().isEmpty()) {
@@ -1824,7 +1824,7 @@ public class AUTFormMobileConector {
 					}
 					else { 
 						String ip2 = String.format(AUT_ANDROID_CONFIGURACAO_IP.IP_IPV4_MULT_CONECT_DINAMICA_2.toString(),hst);
-						ip2 = AUTAPI.AUTProcessoExternoUtils.executarProcesso(ip2).toString();
+						ip2 = AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(ip2).toString();
 						if(!ip2.trim().isEmpty()) {
 							System.out.println("INFO : PROCURANDO IP2");
 							System.out.println(ip2);
@@ -1895,10 +1895,10 @@ public class AUTFormMobileConector {
 					String item = ltDevices.getSelectedValue().toString();
 					ddDevices.remove(ltDevices.getSelectedIndex());
 					
-					AUTAPI.AUTFormularioUtils.exibirMensagem("SOFTTEK: ASSISTENTE DE CONFIGURAÇÃO", String.format("DISPOSITIVO (%s) EXCLUÍDO DA LISTA COM SUCESSO!!!",item));
+					AUTAPIGUI.AUTFormularioUtils.exibirMensagem("SOFTTEK: ASSISTENTE DE CONFIGURAÇÃO", String.format("DISPOSITIVO (%s) EXCLUÍDO DA LISTA COM SUCESSO!!!",item));
 				}
 				else {
-					AUTAPI.AUTFormularioUtils.exibirMensagem("SOFTTEK: ASSISTENTE DE CONFIGURAÇÃO", "ESCOLHA UM DOS DISPOSITIVOS CONECTADOS AO COMPUTADOR PARA EXCLUSÃO");
+					AUTAPIGUI.AUTFormularioUtils.exibirMensagem("SOFTTEK: ASSISTENTE DE CONFIGURAÇÃO", "ESCOLHA UM DOS DISPOSITIVOS CONECTADOS AO COMPUTADOR PARA EXCLUSÃO");
 				}
 			}				
 		});

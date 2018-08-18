@@ -2,7 +2,7 @@ package br.softtek.framework.main.configuracao.db;
 
 import java.awt.event.ActionEvent;
 
-import br.softtek.framework.api.AUTAPI;
+import br.softtek.framework.api.AUTAPIGUI;
 
 /**
  * 
@@ -70,7 +70,7 @@ public class AUTFormFerramentaSQL {
 		formFerramentaSQL.setLocationRelativeTo(formPrincipal);
 		formFerramentaSQL.setLayout(new java.awt.GridBagLayout());
 		
-		configLayout.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
+		configLayout.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
 		configLayout.gridx = 0;
 		configLayout.gridy = 0;
 		configLayout.weightx = 1;

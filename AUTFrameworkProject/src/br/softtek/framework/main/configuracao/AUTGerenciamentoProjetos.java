@@ -2,7 +2,7 @@ package br.softtek.framework.main.configuracao;
 
 import java.awt.event.ActionEvent;
 
-import br.softtek.framework.api.AUTAPI;
+import br.softtek.framework.api.AUTAPIGUI;
 
 /**
  * GERENCIAMENTO DE DADOS DO PROJETOS
@@ -58,7 +58,7 @@ public class AUTGerenciamentoProjetos {
 		
 		configLayout.gridx = 0;
 		configLayout.gridy = 0;
-		configLayout.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(10);		
+		configLayout.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(10);		
 		formGerenciamentoProj.add(lbNomeProj,configLayout);	
 		configLayout.gridx = 1;
 		configLayout.fill = configLayout.HORIZONTAL;
@@ -98,7 +98,7 @@ public class AUTGerenciamentoProjetos {
 		configContInput.gridy = 0;
 		configContInput.weightx = 0;
 		configContInput.fill = configContInput.NONE;
-		configContInput.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
+		configContInput.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
 		pnContatosInput.add(lbNomeContato,configContInput);
 		configContInput.gridx = 1;
 		configContInput.weightx = 1;

@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.event.ChangeEvent;
 
-import br.softtek.framework.api.AUTAPI;
+import br.softtek.framework.api.AUTAPIGUI;
 
 /**
  * CLASSE RESPONSÁVEL PELO GERENCIAMENTO DE ANEXOS
@@ -55,7 +55,7 @@ public class AUTFormAnexosGerenciamento {
 		configLayout.gridy = 0;
 		configLayout.weightx = 0;
 		configLayout.fill = configLayout.NONE;
-		configLayout.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(15);
+		configLayout.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(15);
 		formGerenciadorAnexo.add(lbEntidadePrincipal,configLayout);
 		
 		configLayout.gridx = 1;

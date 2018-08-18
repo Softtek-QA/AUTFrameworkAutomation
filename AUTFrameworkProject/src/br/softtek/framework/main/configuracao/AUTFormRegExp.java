@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
 import br.softtek.framework.api.runtime.*;
-import br.softtek.framework.api.AUTAPI;
+import br.softtek.framework.api.AUTAPIGUI;
 
 /**
  * Classe responsável pelo desenvolvimento de expressões regulares para teste e formatação de dados
@@ -164,12 +164,12 @@ public class AUTFormRegExp {
 						}					
 					}
 					else {
-						AUTAPI.AUTFormularioUtils.exibirMensagem("Assistente: Expressao Regular", "ATENÇÃO: INFORME O CONTEÚDO QUE SERÁ SUBMETIDO A EXPRESSÃO REGULAR");
+						AUTAPIGUI.AUTFormularioUtils.exibirMensagem("Assistente: Expressao Regular", "ATENÇÃO: INFORME O CONTEÚDO QUE SERÁ SUBMETIDO A EXPRESSÃO REGULAR");
 					}							
 				}
 				else
 				{
-					AUTAPI.AUTFormularioUtils.exibirMensagem(AUTAPI.AUTFormularioUtils.AUT_TIPO_MSG_USUARIO.ERRO,"Assistente : Expressões Regulares","Info : Informe a expressão regular para ser avaliada!!!!!");										
+					AUTAPIGUI.AUTFormularioUtils.exibirMensagem(AUTAPIGUI.AUTFormularioUtils.AUT_TIPO_MSG_USUARIO.ERRO,"Assistente : Expressões Regulares","Info : Informe a expressão regular para ser avaliada!!!!!");										
 				}				
 			}
 		});
@@ -216,7 +216,7 @@ public class AUTFormRegExp {
 		configLayout.weightx = 0;
 		configLayout.weighty = 0;
 		configLayout.fill = configLayout.BOTH;
-		configLayout.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(10);
+		configLayout.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(10);
 
 		pnSelectMode.setBackground(java.awt.Color.WHITE);
 

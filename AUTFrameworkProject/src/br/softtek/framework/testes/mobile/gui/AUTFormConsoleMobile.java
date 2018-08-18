@@ -18,10 +18,10 @@ import javax.swing.event.ChangeEvent;
 
 import com.sun.org.apache.xerces.internal.impl.dv.dtd.NMTOKENDatatypeValidator;
 
-import br.softtek.framework.api.AUTAPI;
-import br.softtek.framework.api.AUTAPI.AUTFormularioUtils;
-import br.softtek.framework.api.AUTAPI.AUTPainelImagem;
-import br.softtek.framework.api.AUTAPI.AUTProcessoParalelo;
+import br.softtek.framework.api.AUTAPIGUI;
+import br.softtek.framework.api.AUTAPIGUI.AUTFormularioUtils;
+import br.softtek.framework.api.AUTAPIGUI.AUTPainelImagem;
+import br.softtek.framework.api.AUTAPIGUI.AUTProcessoParalelo;
 import br.softtek.framework.api.runtime.AUTRuntimeConfiguration;
 import br.softtek.framework.testes.mobile.gui.AUTFormMobileConector.AUTDispositivoConfiguracao;
 import br.softtek.framework.testes.mobile.gui.AUTFormMobileConector.AUTDispositivoConfiguracao.AUT_ANDROID_CONFIGURACAO_IP;
@@ -47,7 +47,7 @@ public class AUTFormConsoleMobile {
 	javax.swing.JMenuItem mnEnvAtualizarMenu = new javax.swing.JMenuItem("Atualizar Lista Comandos");		
 	java.util.HashMap<String,java.util.HashMap<String,Object>> ltCmdTerminal = new java.util.HashMap<String,java.util.HashMap<String,Object>>();	
 	javax.swing.JDialog formPrincipal = null;
-	java.util.List<AUTAPI.AUTPainelImagem> listIMGS = new java.util.ArrayList<AUTAPI.AUTPainelImagem>();
+	java.util.List<AUTAPIGUI.AUTPainelImagem> listIMGS = new java.util.ArrayList<AUTAPIGUI.AUTPainelImagem>();
 	String tituloApp = "SOFTTEK - GERENCIAMENTO DE DISPOSITIVO MOBILE: %s";
 	String nmDispositivo = "";
 	Integer posCorrente = 0;
@@ -556,7 +556,7 @@ public class AUTFormConsoleMobile {
 							System.out.println(String.format("ACAO Nº: ", contAct));
 							System.out.println(actItem.toString());
 							
-							System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(actItem.toString()));
+							System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(actItem.toString()));
 
 							System.out.println("INFO: CARREGANDO IMAGEM DA TELA ATUAL DO DISPOSITIVO CONECTADO");	
 
@@ -779,7 +779,7 @@ public class AUTFormConsoleMobile {
 			javax.swing.JPanel pnControlsSteps = new javax.swing.JPanel();
 			pnControlsSteps.setLayout(new javax.swing.BoxLayout(pnControlsSteps,javax.swing.BoxLayout.X_AXIS));
 
-			configInput.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(10);
+			configInput.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(10);
 			configInput.anchor = configInput.CENTER;
 			configInput.gridx = 0;
 			configInput.gridy = 0;
@@ -799,7 +799,7 @@ public class AUTFormConsoleMobile {
 			configInput.gridwidth=1;					
 
 			java.awt.GridBagConstraints configStepControls = new java.awt.GridBagConstraints();
-			configStepControls.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(10);
+			configStepControls.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(10);
 			configStepControls.gridx=0;
 			configStepControls.gridy=0;
 			configStepControls.anchor = configStepControls.LINE_END;
@@ -961,7 +961,7 @@ public class AUTFormConsoleMobile {
 				txtComponenteOutput.setName(String.format("PRM_COMPONENTE_%s",i));
 
 
-				configOut.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
+				configOut.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
 
 				configOut.gridx++;
 				pnOutputConfig.add(txtEntradaComando,configOut);
@@ -1132,7 +1132,7 @@ public class AUTFormConsoleMobile {
 		configCapAut.fill = configCapAut.BOTH;
 		pnCapAut.add(chkHabCapAut,configCapAut);
 
-		configCapAut.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(3);
+		configCapAut.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(3);
 		configCapAut.gridx = 1;
 		configCapAut.gridy = 0;
 		pnCapAut.add(lbTimeSinc,configCapAut);		
@@ -1266,7 +1266,7 @@ public class AUTFormConsoleMobile {
 
 
 		java.awt.GridBagConstraints configMovControls = new java.awt.GridBagConstraints();
-		configMovControls.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(10);
+		configMovControls.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(10);
 		configMovControls.gridx = 0;
 		configMovControls.gridy = 0;
 		configMovControls.gridwidth = 2;
@@ -1330,7 +1330,7 @@ public class AUTFormConsoleMobile {
 		java.awt.GridBagConstraints configLayoutControles = new java.awt.GridBagConstraints();
 		pnControles.setLayout(new java.awt.GridBagLayout());
 		pnControles.setBackground(java.awt.Color.WHITE);
-		configLayoutControles.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(10);
+		configLayoutControles.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(10);
 		configLayoutControles.gridx = 0;
 		configLayoutControles.gridy = 0;
 		configLayoutControles.weightx = 1;
@@ -1344,7 +1344,7 @@ public class AUTFormConsoleMobile {
 		pnButtons.setBackground(java.awt.Color.WHITE);
 
 
-		configLayoutButtons.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(15);
+		configLayoutButtons.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(15);
 		configLayoutButtons.gridx = 0;
 		configLayoutButtons.gridy = 0;
 		configLayoutButtons.weightx = 1;
@@ -1482,7 +1482,7 @@ public class AUTFormConsoleMobile {
 			protected void rotinasExecucao() {
 				try {					
 					if(listIMGS.size() > 0) {
-						AUT_LISTA_FORM_MOB_CONSOLE_INSTANCIAS.get(AUT_ID_MOB_CONSOLE).scrIMG.setViewportView(new AUTAPI.AUTPainelImagem(listIMGS.get(AUT_LISTA_FORM_MOB_CONSOLE_INSTANCIAS.get(AUT_ID_MOB_CONSOLE).posCorrente-1).extrairComponenteIMG(),AUT_LISTA_FORM_MOB_CONSOLE_INSTANCIAS.get(AUT_ID_MOB_CONSOLE).scrIMG.getSize().width,AUT_LISTA_FORM_MOB_CONSOLE_INSTANCIAS.get(AUT_ID_MOB_CONSOLE).scrIMG.getSize().height));
+						AUT_LISTA_FORM_MOB_CONSOLE_INSTANCIAS.get(AUT_ID_MOB_CONSOLE).scrIMG.setViewportView(new AUTAPIGUI.AUTPainelImagem(listIMGS.get(AUT_LISTA_FORM_MOB_CONSOLE_INSTANCIAS.get(AUT_ID_MOB_CONSOLE).posCorrente-1).extrairComponenteIMG(),AUT_LISTA_FORM_MOB_CONSOLE_INSTANCIAS.get(AUT_ID_MOB_CONSOLE).scrIMG.getSize().width,AUT_LISTA_FORM_MOB_CONSOLE_INSTANCIAS.get(AUT_ID_MOB_CONSOLE).scrIMG.getSize().height));
 					}
 				}
 				catch(java.lang.Exception e) {
@@ -1570,7 +1570,7 @@ public class AUTFormConsoleMobile {
 							System.out.println("INFOCOMPONENTE : JANELA REDIMENSIONADA : ASSINC");
 
 							if(listIMGS.size() > 0) {
-								AUT_LISTA_FORM_MOB_CONSOLE_INSTANCIAS.get(AUT_ID_MOB_CONSOLE).scrIMG.setViewportView(new AUTAPI.AUTPainelImagem(listIMGS.get(AUT_LISTA_FORM_MOB_CONSOLE_INSTANCIAS.get(AUT_ID_MOB_CONSOLE).posCorrente-1).extrairComponenteIMG(),AUT_LISTA_FORM_MOB_CONSOLE_INSTANCIAS.get(AUT_ID_MOB_CONSOLE).scrIMG.getSize().width,AUT_LISTA_FORM_MOB_CONSOLE_INSTANCIAS.get(AUT_ID_MOB_CONSOLE).scrIMG.getSize().height));
+								AUT_LISTA_FORM_MOB_CONSOLE_INSTANCIAS.get(AUT_ID_MOB_CONSOLE).scrIMG.setViewportView(new AUTAPIGUI.AUTPainelImagem(listIMGS.get(AUT_LISTA_FORM_MOB_CONSOLE_INSTANCIAS.get(AUT_ID_MOB_CONSOLE).posCorrente-1).extrairComponenteIMG(),AUT_LISTA_FORM_MOB_CONSOLE_INSTANCIAS.get(AUT_ID_MOB_CONSOLE).scrIMG.getSize().width,AUT_LISTA_FORM_MOB_CONSOLE_INSTANCIAS.get(AUT_ID_MOB_CONSOLE).scrIMG.getSize().height));
 							}
 
 						}

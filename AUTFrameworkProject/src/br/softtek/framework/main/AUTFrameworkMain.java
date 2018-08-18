@@ -19,8 +19,8 @@ import br.softtek.framework.main.configuracao.*;
 import br.softtek.framework.testes.arquivo.gui.AUTFormConfiguracaoArquivo;
 import br.softtek.framework.testes.mobile.gui.AUTFormMobileConector;
 import br.softtek.framework.testes.mobile.gui.AUTFormMobileTesteManual;
-import br.softtek.framework.api.AUTAPI;
-import br.softtek.framework.api.AUTAPI.AUTProcessoParalelo;
+import br.softtek.framework.api.AUTAPIGUI;
+import br.softtek.framework.api.AUTAPIGUI.AUTProcessoParalelo;
 import br.softtek.framework.logs.AUTGerenciadorLogs;
 
 /**
@@ -265,7 +265,7 @@ public class AUTFrameworkMain {
 		barraMenus.add(menuIntegracoes);
 		barraMenus.add(menuAjuda);
 		
-		AUTAPI api = new AUTAPI();	
+		AUTAPIGUI api = new AUTAPIGUI();	
 		
 		menuInicializacao.add(barraMenus,java.awt.BorderLayout.PAGE_START);
 	

@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.event.ChangeEvent;
 
-import br.softtek.framework.api.AUTAPI;
+import br.softtek.framework.api.AUTAPIGUI;
 
 /**
  * CLASSE RESPONSÁVEL PELO GERENCIAMENTO DE CENÁRIOS  ASSOCIADOS A UM OU MAIS MÓDULOS DE NEGÓCIO
@@ -118,7 +118,7 @@ public class AUTFormGerenciarCenarios {
 		pnModAutomaticoInput.setLayout(new java.awt.GridLayout());
 		
 		
-		configMDAut.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(10);
+		configMDAut.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(10);
 		configMDAut.anchor = configMDAut.LINE_START;
 		configMDAut.gridx = 0;
 		configMDAut.gridy = 0;
@@ -239,7 +239,7 @@ public class AUTFormGerenciarCenarios {
 		java.awt.GridBagConstraints configLayoutMDManual =  new java.awt.GridBagConstraints();
 		pnModManual.setLayout(new java.awt.GridBagLayout());
 		pnModManual.setBackground(java.awt.Color.WHITE);
-		configLayoutMDManual.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
+		configLayoutMDManual.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
 		configLayoutMDManual.gridx = 0;
 		configLayoutMDManual.gridy = 0;
 		configLayoutMDManual.weightx = 0;
@@ -311,7 +311,7 @@ public class AUTFormGerenciarCenarios {
 		configLayout.gridy = 0;
 		configLayout.weightx = 1;
 		configLayout.weighty = 1;
-		configLayout.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
+		configLayout.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
 		configLayout.fill = configLayout.BOTH;
 
 		formGerenciamentoCenarios.add(tabControleCenarios,configLayout);

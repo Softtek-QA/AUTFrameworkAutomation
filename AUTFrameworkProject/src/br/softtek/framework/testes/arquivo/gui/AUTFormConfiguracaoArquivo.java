@@ -24,7 +24,7 @@ import javax.swing.text.Highlighter.HighlightPainter;
 import javax.swing.JTextArea;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.DefaultHighlighter.DefaultHighlightPainter;
-import br.softtek.framework.api.AUTAPI;
+import br.softtek.framework.api.AUTAPIGUI;
 import br.softtek.framework.logs.*;
 public class AUTFormConfiguracaoArquivo{
 	private javax.swing.JDialog formularioConfiguracao;
@@ -418,7 +418,7 @@ public class AUTFormConfiguracaoArquivo{
 				conteudoArquivo.setText("");
 				if(fileDialog.getSelectedFile() != null) {
 					txtArquivo.setText(fileDialog.getSelectedFile().toString());
-					for(String linha : AUTAPI.carregarArquivo(txtArquivo.getText())) {
+					for(String linha : AUTAPIGUI.carregarArquivo(txtArquivo.getText())) {
 						conteudoArquivo.append(linha.concat("\n"));
 					}
 					AUTGerenciadorLogs.registrarLog(fileDialog.getSelectedFile());

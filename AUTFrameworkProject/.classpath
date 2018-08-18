@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="Resources"/>
 	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/DerbyServer/lib/derby.jar"/>
 	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/DerbyServer/lib/derbyclient.jar"/>
 	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/DerbyServer/lib/derbynet.jar"/>
@@ -11,5 +12,18 @@
 	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/Connector J 8.0/mysql-connector-java-8.0.11.jar"/>
 	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/H2/h2-1.4.196.jar"/>
 	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/IBM DB2/db2jcc4.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTIBMDB2/db2jcc4.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJavaDerby/derby.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJavaDerby/derbyclient.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJavaDerby/derbynet.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJavaDerby/derbyoptionaltools.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJavaDerby/derbyrun.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJavaDerby/derbytools.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJavaH2/h2-1.4.196.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTMySQL/mysql-connector-java-8.0.11.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTSilk/com.borland.silktest.jtf.javadoc_18.5.0.9630.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTSilk/com.borland.silktest.silk4j.doc_18.5.0.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTSilk/com.borland.silktest.silk4j.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTSilk/silktest-jtf-nodeps.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

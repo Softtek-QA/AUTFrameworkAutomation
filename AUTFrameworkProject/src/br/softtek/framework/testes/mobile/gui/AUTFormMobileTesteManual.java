@@ -11,7 +11,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.spi.CharsetProvider;
 import java.util.Map;
 import java.util.stream.Collector.Characteristics;
-import br.softtek.framework.api.AUTAPI.*;
+import br.softtek.framework.api.AUTAPIGUI.*;
 import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
@@ -20,7 +20,7 @@ import javax.swing.event.ListSelectionEvent;
 
 import org.apache.derby.iapi.types.CharStreamHeaderGenerator;
 
-import br.softtek.framework.api.AUTAPI;
+import br.softtek.framework.api.AUTAPIGUI;
 import br.softtek.framework.api.runtime.AUTRuntimeConfiguration;
 
 /**
@@ -111,7 +111,7 @@ public class AUTFormMobileTesteManual{
 			 * 
 			 * 
 			 */
-			AUTAPI.AUTProcessoExternoUtils.executarProcesso("adb shell ".concat(ANDROID_ESTRUTURA_ARQUIVOS));
+			AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso("adb shell ".concat(ANDROID_ESTRUTURA_ARQUIVOS));
 			
 			
 		}
@@ -126,7 +126,7 @@ public class AUTFormMobileTesteManual{
 				SERIAL_SCREEN++;
 				comando = String.format("adb shell %s;input keyevent %s;%s;",recScreenAtual,cmd,recScreenEsperado);
 				
-				System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(comando));
+				System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(comando));
 				AUTDadosTransferenciaArquivos.put(String.format(ANDROID_ARQUIVO_ATUAL_CORRENTE.toString(),SERIAL_SCREEN.toString()),
 						String.format(ANDROID_ARQUIVO_ESPERADO_CORRENTE.toString(),SERIAL_SCREEN.toString()));
 			}
@@ -136,19 +136,19 @@ public class AUTFormMobileTesteManual{
 				SERIAL_SCREEN++;
 				comando = String.format("adb shell %s;input keyevent %s;%s;",recScreenAtual,cmd,recScreenEsperado);
 				
-				System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(comando));	
+				System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(comando));	
 				AUTDadosTransferenciaArquivos.put(String.format(ANDROID_ARQUIVO_ATUAL_CORRENTE.toString(),SERIAL_SCREEN.toString()),
 						String.format(ANDROID_ARQUIVO_ESPERADO_CORRENTE.toString(),SERIAL_SCREEN.toString()));
 			}
 			else if(AUTRuntimeConfiguration.AUT_HABILITAR_TERMINAL_DE_COMANDO) {
-				System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell input keyevent %s;",cmd)));
+				System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell input keyevent %s;",cmd)));
 			}
 			
 			return cmd;
 		}
 
 		public static void enviarConteudo(String conteudo) {
-			System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell input keyboard text \"%s\"",conteudo)));
+			System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell input keyboard text \"%s\"",conteudo)));
 		}
 
 		public enum AUTKEY{
@@ -223,16 +223,16 @@ public class AUTFormMobileTesteManual{
 
 		public static String buscarIP() {
 			//return AUTAPI.AUTProcessoExternoUtils.executarProcesso("adb shell getprop ".concat(IP)).toString().trim();
-			return AUTAPI.AUTProcessoExternoUtils.executarProcesso("adb shell getprop ".concat(IP)).toString().trim();
+			return AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso("adb shell getprop ".concat(IP)).toString().trim();
 		}
 
 		
 		public static String buscarHostNome() {
-			return AUTAPI.AUTProcessoExternoUtils.executarProcesso("adb shell getprop net.hostname").toString();
+			return AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso("adb shell getprop net.hostname").toString();
 		}
 		
 		public static String buscarNomeHost() {
-			return AUTAPI.AUTProcessoExternoUtils.executarProcesso("adb shell getprop ".concat(HOST_NOME)).toString().trim();
+			return AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso("adb shell getprop ".concat(HOST_NOME)).toString().trim();
 		}
 
 		public static String configurarConexaoTCPIP(String IP) {
@@ -245,9 +245,9 @@ public class AUTFormMobileTesteManual{
 				dados.PORTA = portConexao.toString();
 
 				System.out.println("INFO: CONFIGURANDO CONEXAO TCP IP COM DISPOSIVO CONECTADO : ".concat(buscarNomeHost().concat(" PORTA: ".concat(portConexao.toString()))));
-				System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb disconnect %s:%s",IP,portConexao)));
-				System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb tcpip %s",portConexao)));				
-				System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb connect %s:%s",IP,portConexao)));
+				System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb disconnect %s:%s",IP,portConexao)));
+				System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb tcpip %s",portConexao)));				
+				System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb connect %s:%s",IP,portConexao)));
 
 
 				System.out.println("INFO : FIM DA CONFIGURACAO DE REDE");
@@ -258,9 +258,9 @@ public class AUTFormMobileTesteManual{
 				dados = conexoesDispositivos.get(IP);
 
 				System.out.println("INFO: TENTANDO RECONECTAR COM DISPOSIVO: ".concat(dados.IP.concat(" PORTA: ".concat(dados.PORTA))));
-				System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb disconnect %s:%s",dados.IP,dados.PORTA)));
-				System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb tcpip %s",dados.PORTA)));				
-				System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb connect %s:%s",dados.IP,dados.PORTA)));
+				System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb disconnect %s:%s",dados.IP,dados.PORTA)));
+				System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb tcpip %s",dados.PORTA)));				
+				System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb connect %s:%s",dados.IP,dados.PORTA)));
 				System.out.println("INFO : FIM DA CONFIGURACAO DE REDE");			
 			}
 
@@ -272,7 +272,7 @@ public class AUTFormMobileTesteManual{
 			AUTDadosConexao dados = conexoesDispositivos.get(IP);
 
 			System.out.println("INFO: RECONFIGURANDO CONEXAO USB: ".concat(dados.IP.concat(" PORTA: ".concat(dados.PORTA))));
-			System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb disconnect %s:%s",dados.IP,dados.PORTA)));
+			System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb disconnect %s:%s",dados.IP,dados.PORTA)));
 
 		}
 	}
@@ -415,13 +415,13 @@ public class AUTFormMobileTesteManual{
 							if(!AUTRuntimeConfiguration.AUT_GRAVACAO_VIDEO_ATIVA) {
 																
 								AUTRuntimeConfiguration.AUT_GRAVACAO_VIDEO_ATIVA = true;
-								AUTAPI.AUTFormularioUtils.exibirMensagem("Softtek : Assistente de Configuração", "Gravação iniciada com sucesso!!!!");
+								AUTAPIGUI.AUTFormularioUtils.exibirMensagem("Softtek : Assistente de Configuração", "Gravação iniciada com sucesso!!!!");
 								
 								AUTRuntimeConfiguration.AUT_PROCESSO_GRAVACAO_VIDEO = new java.lang.Thread(new java.lang.Runnable() {
 									@Override
 									public void run() {
 										// TODO Auto-generated method stub
-										processoGravacao = AUTAPI.AUTProcessoExternoUtils.executarProcessoExterno("adb shell screenrecord \"".concat(AUTFormMobileTesteManual.AUTDispositivoConfiguracao.ANDROID_ARQUIVO_VIDEO_PADRAO.concat("\"")));
+										processoGravacao = AUTAPIGUI.AUTProcessoExternoUtils.executarProcessoExterno("adb shell screenrecord \"".concat(AUTFormMobileTesteManual.AUTDispositivoConfiguracao.ANDROID_ARQUIVO_VIDEO_PADRAO.concat("\"")));
 										
 									}
 								});
@@ -438,11 +438,11 @@ public class AUTFormMobileTesteManual{
 								AUTRuntimeConfiguration.AUT_GRAVACAO_VIDEO_ATIVA = false;
 								AUTRuntimeConfiguration.AUT_PROCESSO_GRAVACAO_VIDEO.start();
 								System.out.println(AUTRuntimeConfiguration.AUT_PROCESSO_GRAVACAO_VIDEO.interrupted());
-								AUTAPI.AUTFormularioUtils.exibirMensagem("Softtek : Assistente de Configuração", "Gravação finalizada com sucesso, navegue até o diretório informado para visualizar o arquivo (.mp4)");
+								AUTAPIGUI.AUTFormularioUtils.exibirMensagem("Softtek : Assistente de Configuração", "Gravação finalizada com sucesso, navegue até o diretório informado para visualizar o arquivo (.mp4)");
 							}
 						}
 						else {
-							AUTAPI.AUTFormularioUtils.exibirMensagem("Softtek : Assistente de Configuração", "Informe o diretório de despejo do arquivo de video");
+							AUTAPIGUI.AUTFormularioUtils.exibirMensagem("Softtek : Assistente de Configuração", "Informe o diretório de despejo do arquivo de video");
 						}
 						
 						return null;
@@ -496,7 +496,7 @@ public class AUTFormMobileTesteManual{
 							
 						}
 						else {
-							AUTAPI.AUTFormularioUtils.exibirMensagem("Assistente de Configuração", "Selecione um diretório para sincronização das evidências");
+							AUTAPIGUI.AUTFormularioUtils.exibirMensagem("Assistente de Configuração", "Selecione um diretório para sincronização das evidências");
 						}
 						
 						System.out.println(AUTDispositivoConfiguracao.AUTDadosTransferenciaArquivos);				
@@ -522,7 +522,7 @@ public class AUTFormMobileTesteManual{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
-				String dir = AUTAPI.gerarCaixaDialog(formMobile);
+				String dir = AUTAPIGUI.gerarCaixaDialog(formMobile);
 				txtDiretorioSaidaTerminal.setText(dir);
 			}
 		});
@@ -592,7 +592,7 @@ public class AUTFormMobileTesteManual{
 								protected void rotinasExecucao() {
 									
 									System.out.println("INFO : INICIANDO PROCESSO DE GRAVACAO DE VIDEO:");
-									processoItem = AUTAPI.AUTProcessoExternoUtils.executarProcessoExterno("adb shell ".concat(AUTDispositivoConfiguracao.ANDROID_ARQUIVO_VIDEO_PADRAO));	
+									processoItem = AUTAPIGUI.AUTProcessoExternoUtils.executarProcessoExterno("adb shell ".concat(AUTDispositivoConfiguracao.ANDROID_ARQUIVO_VIDEO_PADRAO));	
 									try {
 									rotinasFinalizacao();
 									}
@@ -775,7 +775,7 @@ public class AUTFormMobileTesteManual{
 		configTerm.gridy = 0;
 		configTerm.fill = configTerm.BOTH;
 		configTerm.weightx = 1;
-		configTerm.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(10);
+		configTerm.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(10);
 		pnAtividades.setLayout(new java.awt.GridBagLayout());
 		pnAtividades.setBackground(java.awt.Color.WHITE);
 
@@ -853,9 +853,9 @@ public class AUTFormMobileTesteManual{
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				System.out.println("INFO : DESINSTALANDO APLICATIVO : ".concat(listApps.getSelectedValue().toString()));
-				System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell pm uninstall %s",listApps.getSelectedValue().toString().trim())));
-				listApps.setModel(AUTAPI.AUTFormularioUtils.carregarFonteDados(2,"package:","\"powershell\" \"adb shell pm list packages | ForEach-Object -process{$_.replace('package:','')};\""));
-				AUTAPI.AUTFormularioUtils.exibirMensagem(AUTAPI.AUTFormularioUtils.AUT_TIPO_MSG_USUARIO.INFORMATIVA,
+				System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell pm uninstall %s",listApps.getSelectedValue().toString().trim())));
+				listApps.setModel(AUTAPIGUI.AUTFormularioUtils.carregarFonteDados(2,"package:","\"powershell\" \"adb shell pm list packages | ForEach-Object -process{$_.replace('package:','')};\""));
+				AUTAPIGUI.AUTFormularioUtils.exibirMensagem(AUTAPIGUI.AUTFormularioUtils.AUT_TIPO_MSG_USUARIO.INFORMATIVA,
 						"Softtek : Assistente de Configuração",
 						"APLICATIVO DESINSTALADO COM SUCESSO!!!");								
 			}
@@ -865,22 +865,22 @@ public class AUTFormMobileTesteManual{
 		btUploadApp.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				String arquivo = AUTAPI.gerarCaixaDialog(formMobile);
+				String arquivo = AUTAPIGUI.gerarCaixaDialog(formMobile);
 				String arquivoDestino = "/sdcard/aut_apks/".concat(java.nio.file.Paths.get(arquivo).getFileName().toString());
 				if(arquivo.contains(".apk")) {
 					System.out.println("INFO : FAZENDO UPLOAD DO ARQUIVO DE INSTALAÇÃO : APK");
 					System.out.println("ARQUIVO : ".concat(java.nio.file.Paths.get(arquivo).getFileName().toString()));
-					System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso("adb shell mkdir /sdcard/aut_apks"));
-					System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb push \"%s\" \"%s\"",arquivo,arquivoDestino)));
-					System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell pm install \"%s\"",arquivoDestino)));
-					listApps.setModel(AUTAPI.AUTFormularioUtils.carregarFonteDados(2,"package:","\"powershell\" \"adb shell pm list packages | ForEach-Object -process{$_.replace('package:','')};\""));
-					AUTAPI.AUTFormularioUtils.exibirMensagem(AUTAPI.AUTFormularioUtils.AUT_TIPO_MSG_USUARIO.INFORMATIVA,
+					System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso("adb shell mkdir /sdcard/aut_apks"));
+					System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb push \"%s\" \"%s\"",arquivo,arquivoDestino)));
+					System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("adb shell pm install \"%s\"",arquivoDestino)));
+					listApps.setModel(AUTAPIGUI.AUTFormularioUtils.carregarFonteDados(2,"package:","\"powershell\" \"adb shell pm list packages | ForEach-Object -process{$_.replace('package:','')};\""));
+					AUTAPIGUI.AUTFormularioUtils.exibirMensagem(AUTAPIGUI.AUTFormularioUtils.AUT_TIPO_MSG_USUARIO.INFORMATIVA,
 							"Softtek : Assistente de Configuração",
 							"APLICATIVO INSTALADO COM SUCESSO!!!");
 				}
 				else {
 					System.out.println("INFO ARQUIVO INVÁLIDO PARA INSTALAÇÃO DE APLICATIVO");
-					AUTAPI.AUTFormularioUtils.exibirMensagem(AUTAPI.AUTFormularioUtils.AUT_TIPO_MSG_USUARIO.ATENCAO_ALERTA,
+					AUTAPIGUI.AUTFormularioUtils.exibirMensagem(AUTAPIGUI.AUTFormularioUtils.AUT_TIPO_MSG_USUARIO.ATENCAO_ALERTA,
 							"Softtek : Assistente de Configuração",
 							"APLICATIVO PARA INSTALAÇÃO INVÁLIDO");
 				}
@@ -924,7 +924,7 @@ public class AUTFormMobileTesteManual{
 		configLayoutPrincipal.gridheight = 10;
 		configLayoutPrincipal.fill = configLayoutPrincipal.BOTH;
 		javax.swing.DefaultListModel<javax.swing.JComponent> dadosImg = new javax.swing.DefaultListModel<javax.swing.JComponent>();
-		AUTAPI.AUTPainelImagem item1 = new AUTAPI.AUTPainelImagem("C:\\Repositorios\\img001.png", 0, 0, 500, 800);
+		AUTAPIGUI.AUTPainelImagem item1 = new AUTAPIGUI.AUTPainelImagem("C:\\Repositorios\\img001.png", 0, 0, 500, 800);
 
 		formMobile.add(item1,configLayoutPrincipal);
 
@@ -958,10 +958,10 @@ public class AUTFormMobileTesteManual{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(!listDevices.isSelectionEmpty()) {
-					listApps.setModel(AUTAPI.AUTFormularioUtils.carregarFonteDados(2,"package:","\"powershell\" \"adb shell pm list packages | ForEach-Object -process{$_.replace('package:','')};\""));
+					listApps.setModel(AUTAPIGUI.AUTFormularioUtils.carregarFonteDados(2,"package:","\"powershell\" \"adb shell pm list packages | ForEach-Object -process{$_.replace('package:','')};\""));
 				}
 				else {
-					AUTAPI.AUTFormularioUtils.exibirMensagem(AUTAPI.AUTFormularioUtils.AUT_TIPO_MSG_USUARIO.ATENCAO_ALERTA,
+					AUTAPIGUI.AUTFormularioUtils.exibirMensagem(AUTAPIGUI.AUTFormularioUtils.AUT_TIPO_MSG_USUARIO.ATENCAO_ALERTA,
 							"Softtek : Assistente de Configuração",
 							"SELECIONE UM DISPOSITIVO DISPONÍVEL NA LISTA, CASO NÃO TENHA NENHUM CLIQUE EM ATUALIZAR!!!!");
 				}
@@ -973,7 +973,7 @@ public class AUTFormMobileTesteManual{
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
 				if(!listDevices.isSelectionEmpty()) {
-					listApps.setModel(AUTAPI.AUTFormularioUtils.carregarFonteDados(2,"package:","\"powershell\" \"adb shell pm list packages | ForEach-Object -process{$_.replace('package:','')};\""));					
+					listApps.setModel(AUTAPIGUI.AUTFormularioUtils.carregarFonteDados(2,"package:","\"powershell\" \"adb shell pm list packages | ForEach-Object -process{$_.replace('package:','')};\""));					
 				}
 				else {
 
@@ -992,10 +992,10 @@ public class AUTFormMobileTesteManual{
 				if(!listDevices.isSelectionEmpty()) {
 					AUTDispositivoConfiguracao.configurarConexaoTCPIP(listDevices.getSelectedValue().toString());
 
-					AUTAPI.AUTFormularioUtils.exibirMensagem("Softtek - Assistente de Configuração", "SERVIÇO DE ACESSO VIA WIFI HABILITADO, DESCONECTE O CABO USB E FAÇA O TESTE");
+					AUTAPIGUI.AUTFormularioUtils.exibirMensagem("Softtek - Assistente de Configuração", "SERVIÇO DE ACESSO VIA WIFI HABILITADO, DESCONECTE O CABO USB E FAÇA O TESTE");
 				}
 				else {
-					AUTAPI.AUTFormularioUtils.exibirMensagem("Softtek - Assistente de Configuração", "SELECIONE O DISPOSITIVO QUE DESEJA HABILITAR O ACESSO VIA WIFI");
+					AUTAPIGUI.AUTFormularioUtils.exibirMensagem("Softtek - Assistente de Configuração", "SELECIONE O DISPOSITIVO QUE DESEJA HABILITAR O ACESSO VIA WIFI");
 				}
 			}	
 		});
@@ -1007,10 +1007,10 @@ public class AUTFormMobileTesteManual{
 				if(!listDevices.isSelectionEmpty()) {
 					AUTDispositivoConfiguracao.configurarConexaoUSB(listDevices.getSelectedValue().toString());
 
-					AUTAPI.AUTFormularioUtils.exibirMensagem("Softtek - Assistente de Configuração", "SERVIÇO DE ACESSO VIA WIFI DESABILITADO, CONECTE O CABO USB E FAÇA O TESTE");
+					AUTAPIGUI.AUTFormularioUtils.exibirMensagem("Softtek - Assistente de Configuração", "SERVIÇO DE ACESSO VIA WIFI DESABILITADO, CONECTE O CABO USB E FAÇA O TESTE");
 				}
 				else {
-					AUTAPI.AUTFormularioUtils.exibirMensagem("Softtek - Assistente de Configuração", "SELECIONE O DISPOSITIVO QUE DESEJA DESABILITAR O ACESSO POR WIFI");
+					AUTAPIGUI.AUTFormularioUtils.exibirMensagem("Softtek - Assistente de Configuração", "SELECIONE O DISPOSITIVO QUE DESEJA DESABILITAR O ACESSO POR WIFI");
 				}
 			}	
 		});
@@ -1028,10 +1028,10 @@ public class AUTFormMobileTesteManual{
 				java.util.List<String> itensApk = new java.util.ArrayList<String>();
 
 				if(!listApps.isSelectionEmpty()) {
-					diretorioSaida = AUTAPI.gerarCaixaDialog(formMobile);
+					diretorioSaida = AUTAPIGUI.gerarCaixaDialog(formMobile);
 
 					for(Object app: listApps.getSelectedValuesList()) {
-						String apk = AUTAPI.AUTProcessoExternoUtils.executarProcesso("\"powershell\" \"adb shell pm path ".concat(app.toString().trim()).concat(" | ForEach-Object -process{$_.replace('package:','')};\"")).toString();
+						String apk = AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso("\"powershell\" \"adb shell pm path ".concat(app.toString().trim()).concat(" | ForEach-Object -process{$_.replace('package:','')};\"")).toString();
 						if(!apk.trim().isEmpty()) {
 							itensApk.add(app.toString().concat(":").concat(apk));
 						}						
@@ -1045,15 +1045,15 @@ public class AUTFormMobileTesteManual{
 						System.out.println("PACOTE: ".concat(pacote));
 						System.out.println("URL:".concat(apkInst));
 
-						System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("\"powershell\" \"adb pull '%s' '%s'\"",apkInst,diretorioSaida)).toString());
+						System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("\"powershell\" \"adb pull '%s' '%s'\"",apkInst,diretorioSaida)).toString());
 
 
-						System.out.println(AUTAPI.AUTProcessoExternoUtils.executarProcesso(String.format("\"powershell\" \"adb shell pm dump '%s'\"",pacote)).toString());
+						System.out.println(AUTAPIGUI.AUTProcessoExternoUtils.executarProcesso(String.format("\"powershell\" \"adb shell pm dump '%s'\"",pacote)).toString());
 					}
 
 				}
 				else {
-					AUTAPI.AUTFormularioUtils.exibirMensagem("Softtek : Assistente de Configuração", "SELECIONE UM OU MAIS APLICATIVOS PARA BAIXAR DO DISPOSITIVO");
+					AUTAPIGUI.AUTFormularioUtils.exibirMensagem("Softtek : Assistente de Configuração", "SELECIONE UM OU MAIS APLICATIVOS PARA BAIXAR DO DISPOSITIVO");
 				}
 
 				System.out.println("INFO: DIRETORIO DE SAIDA SELECIONADO PELO USUÁRIO : ".concat(diretorioSaida));

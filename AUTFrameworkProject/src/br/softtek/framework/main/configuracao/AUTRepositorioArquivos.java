@@ -1,6 +1,6 @@
 package br.softtek.framework.main.configuracao;
 
-import br.softtek.framework.api.AUTAPI;
+import br.softtek.framework.api.AUTAPIGUI;
 import br.softtek.framework.logs.AUTGerenciadorLogs;
 
 public class AUTRepositorioArquivos {
@@ -52,7 +52,7 @@ public class AUTRepositorioArquivos {
 		botaoDirConfiguracao.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				txtDirConfiguracao.setText(AUTAPI.gerarCaixaDialog(formularioPrincipal));
+				txtDirConfiguracao.setText(AUTAPIGUI.gerarCaixaDialog(formularioPrincipal));
 			}
 		});
 
@@ -60,7 +60,7 @@ public class AUTRepositorioArquivos {
 		botaoDirEvidencias.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				txtDirEvidencias.setText(AUTAPI.gerarCaixaDialog(formularioPrincipal));				
+				txtDirEvidencias.setText(AUTAPIGUI.gerarCaixaDialog(formularioPrincipal));				
 			}
 		});
 		

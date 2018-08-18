@@ -8,7 +8,7 @@ import java.lang.Character.UnicodeScript;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import br.softtek.framework.api.AUTAPI;
+import br.softtek.framework.api.AUTAPIGUI;
 import br.softtek.framework.main.configuracao.db.AUTFormFerramentaSQL;
 
 /**
@@ -183,7 +183,7 @@ public class AUTFormGerenciamentoTestes {
 				
 		pnInputDB.setLayout(new java.awt.GridBagLayout());
 		pnInputDB.setBackground(java.awt.Color.WHITE);
-		configLayout.insets = AUTAPI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
+		configLayout.insets = AUTAPIGUI.AUTFormularioUtils.configurarEspacoInternoElementoGUI(5);
 		configLayout.gridx = 0;
 		configLayout.gridy = 0;
 		configLayout.weightx  = 0;
