@@ -49,7 +49,7 @@ public class AUTFrameworkMain {
 		javax.swing.JMenu menuAjuda = new javax.swing.JMenu("Ajuda");
 		javax.swing.JMenuBar barraMenus = new javax.swing.JMenuBar();
 		javax.swing.JLabel lbStatus = new javax.swing.JLabel(String.format("HOST : LOCALHOST%80s","*"));
-		String imagemLogon = "../AUTSTKProject/Recursos/imagem001.png";
+		String imagemLogon = "../AUTSofttekFrameworkProject/Resources/AUTArquivos/imagem001.png";
 		
 		/**
 		 * 
