@@ -27,7 +27,6 @@ public class AUTDBBSIResourceBase extends AUTDBBSIBaseConfiguration {
 		SELECT_ALL_BSI_RESOURCES_BASE,
 		SELECT_BSI_RESOURCES_BASE_BY_CFG_BASE_ID;
 		
-		@Override
 		public String toString() {
 			// TODO Auto-generated method stub
 			switch(this) {
