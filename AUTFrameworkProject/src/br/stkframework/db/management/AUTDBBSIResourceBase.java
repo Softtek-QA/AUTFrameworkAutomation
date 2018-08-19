@@ -76,8 +76,7 @@ public class AUTDBBSIResourceBase extends AUTDBBSIBaseConfiguration {
 		catch(java.lang.Exception e) {
 			System.out.println("AUT ERROR: INSERT RESOURCE IN DATABASE");		
 			System.out.println(e.getMessage());
-			e.printStackTrace();
-			
+			e.printStackTrace();			
 			
 			return false;
 		}
