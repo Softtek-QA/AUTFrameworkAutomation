@@ -3,15 +3,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="Resources"/>
-	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/DerbyServer/lib/derby.jar"/>
-	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/DerbyServer/lib/derbyclient.jar"/>
-	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/DerbyServer/lib/derbynet.jar"/>
-	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/DerbyServer/lib/derbyoptionaltools.jar"/>
-	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/DerbyServer/lib/derbyrun.jar"/>
-	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/DerbyServer/lib/derbytools.jar"/>
-	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/Connector J 8.0/mysql-connector-java-8.0.11.jar"/>
-	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/H2/h2-1.4.196.jar"/>
-	<classpathentry kind="lib" path="C:/FWK001V2/AUTSTKProject/Recursos/IBM DB2/db2jcc4.jar"/>
 	<classpathentry kind="lib" path="Resources/AUTIBMDB2/db2jcc4.jar"/>
 	<classpathentry kind="lib" path="Resources/AUTJavaDerby/derby.jar"/>
 	<classpathentry kind="lib" path="Resources/AUTJavaDerby/derbyclient.jar"/>
@@ -25,5 +16,92 @@
 	<classpathentry kind="lib" path="Resources/AUTSilk/com.borland.silktest.silk4j.doc_18.5.0.jar"/>
 	<classpathentry kind="lib" path="Resources/AUTSilk/com.borland.silktest.silk4j.jar"/>
 	<classpathentry kind="lib" path="Resources/AUTSilk/silktest-jtf-nodeps.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-api-caching.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-application-views.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-application.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-attach.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-charts.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-core.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-coredump.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-heapdump.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-host-remote.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-host-views.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-host.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-jmx.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-jvm.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-jvmstat.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-modules-appui.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-modules-startup_ja.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-modules-startup_zh_CN.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-profiler.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-profiling.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-sa.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-sampler.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-threaddump.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-tools.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-uisupport.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/core_visualvm.jar"/>
+	<classpathentry kind="lib" path="Resources/AUTJAVALIB/junit-4.10.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-api-annotations-common.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-api-progress.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-api-search.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-api-visual.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-core-execution.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-core-io-ui.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-core-multitabs.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-core-multiview.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-core-output2.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-core-ui.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-core-windows.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-core.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-lib-uihandler.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-applemenu.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-autoupdate-cli.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-autoupdate-services.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-autoupdate-ui.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-core-kit.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-editor-mimelookup-impl.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-editor-mimelookup.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-favorites.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-javahelp.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-keyring-fallback.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-keyring-impl.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-keyring.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-masterfs-nio2.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-masterfs.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-options-api.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-options-keymap.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-print.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-progress-ui.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-queries.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-sampler.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-sendopts.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-settings.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-spi-actions.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-templates.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-modules-uihandler.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-spi-quicksearch.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-swing-outline.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-swing-plaf.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-netbeans-swing-tabcontrol.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-openide-actions.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-openide-awt.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-openide-compat.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-openide-dialogs.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-openide-execution.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-openide-explorer.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-openide-io.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-openide-loaders.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-openide-nodes.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-openide-options.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-openide-text.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-openide-util-enumerations.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-openide-windows.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-openide-filesystems.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-openide-util-7.2.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-openide-util-7.3-sources.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-openide-util.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/xerces-2_6_2.jar"/>
+	<classpathentry kind="lib" path="Resources/JVM/org-openide-util-lookup.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -13,7 +13,7 @@ import br.stkframework.db.management.AUTDBSessionsUsers;
  *
  */
 public class AUTConnectorGlobalConfiguration {
-	public static String AUT_MYSQL_SERVER = "localhost"; //Variável global de configuração do IP de serviço para banco de dados MYSQL
+	public static String AUT_MYSQL_SERVER = "192.168.0.101"; //Variável global de configuração do IP de serviço para banco de dados MYSQL
 	public static String AUT_SQL_SERVER = "localhost"; //Variável global de configuração do IP de serviço para banco de dados MYSQL
 	public static String AUT_JAVA_DERBY_SERVER = "localhost"; //Variável global de configuração do IP de serviço para banco de dados MYSQL
 	public static String AUT_H2_SERVER = "mphst001"; //Variável global de configuração do IP de serviço para banco de dados MYSQL
