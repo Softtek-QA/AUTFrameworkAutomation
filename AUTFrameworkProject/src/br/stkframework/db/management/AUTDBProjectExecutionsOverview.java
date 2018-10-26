@@ -12,7 +12,6 @@ package br.stkframework.db.management;
  *
  */
 public class AUTDBProjectExecutionsOverview extends AUTDBProject {
-
 	/**
 	 * Lista de propriedades da tabela de execução geral
 	 * 

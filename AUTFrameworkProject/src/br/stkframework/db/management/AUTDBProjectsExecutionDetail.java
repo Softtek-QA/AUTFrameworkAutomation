@@ -11,6 +11,7 @@ package br.stkframework.db.management;
  *
  */
 public class AUTDBProjectsExecutionDetail extends AUTDBProject {
+	private AUTDBProjectsResourceExecManagement pjtResourceExecution = null;
 	
 	
 	/**
@@ -52,12 +53,16 @@ public class AUTDBProjectsExecutionDetail extends AUTDBProject {
 		UPDATE_STATE_SCENARIO_ITEM,
 		INSERT_TEST_CASE_ITEM,
 		SELECT_ALL_TEST_CASE_ITEM,
-		UPDATE_STATE_TEST_CASE_ITEM;
+		UPDATE_STATE_TEST_CASE_ITEM,
+		DELETE_DETAILS_EXECUTION_BY_ID;
 		
 		@Override
 		public String toString() {
 			// TODO Auto-generated method stub			
 			switch(this) {
+			case DELETE_DETAILS_EXECUTION_BY_ID:{
+				return "DELETE FROM lry.aut_projects_status_details WHERE PJT_ID=?;";
+			}
 			case INSERT_MODULE_ITEM:{
 				return "INSERT INTO lry.aut_projects_status_details(PJT_ID," + 
 						"DSK_ID, VM_ID, DSK_NAME," + 
@@ -128,6 +133,60 @@ public class AUTDBProjectsExecutionDetail extends AUTDBProject {
 		
 	/**
 	 * 
+	 * Retorna o gerenciados de recursos da execução relacionada ao projeto
+	 * 
+	 * @return TResourcesManagement - Classe que extende o gerenciador de projetos
+	 * 
+	 */
+	private <TResourcesManagement extends AUTDBProjectsResourceExecManagement> AUTDBProjectsResourceExecManagement autGetResourceManagement() {
+		pjtResourceExecution = new AUTDBProjectsResourceExecManagement();
+		pjtResourceExecution.autSetConnection(getActiveConnection());
+		return pjtResourceExecution;
+	}
+	
+	/**
+	 * 
+	 * Inclui a imagem da relacionada ao status
+	 * 
+	 * @param projectId - Id do projeto
+	 * @param scenarioName - Nome do cenário
+	 * 
+	 * @return boolean - Retorna true caso o processo seja finalizado com sucesso false caso contrário
+	 * 
+	 */
+	public boolean autInsertResourceImageExecution(String projectId,String scenarioName,Object resourceItem) {
+		try {		
+			System.out.println("AUT INFO : RESOURCE EXECUTION : INSERT NEW IMAGE : INIT");
+			autGetResourceManagement().autInsertResourceExecImage(new Object[] {autGetResourceManagement().autGetResourceIdByScenario(new Object[] {projectId,scenarioName}),projectId,scenarioName,resourceItem});
+			System.out.println("AUT INFO: RESOURCE EXECUTION : INSERT NEW IMAGE : END");						
+			return true;
+		}
+		catch(java.lang.Exception e) {
+			System.out.println("AUT ERROR : INSERT NEW IMAGE");
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			
+			return false;
+		}
+	}
+	
+	public boolean autInsertResourceImageExecution(java.sql.Connection con,String projectId,String scenarioName,Object resourceItem) {
+		try {		
+			System.out.println("AUT INFO : RESOURCE EXECUTION : INSERT NEW IMAGE : INIT");
+			autGetResourceManagement().autInsertResourceExecImage(new Object[] {autGetResourceManagement().autGetResourceIdByScenario(new Object[] {projectId,scenarioName}),projectId,scenarioName,resourceItem});
+			System.out.println("AUT INFO: RESOURCE EXECUTION : INSERT NEW IMAGE : END");						
+			return true;
+		}
+		catch(java.lang.Exception e) {
+			System.out.println("AUT ERROR : INSERT NEW IMAGE");
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			
+			return false;
+		}
+	}
+	/**
+	 * 
 	 * Inclui um novo cenário na base de dados
 	 * 
 	 */
@@ -146,6 +205,33 @@ public class AUTDBProjectsExecutionDetail extends AUTDBProject {
 	 */
 	public java.util.HashMap<Integer,java.util.HashMap<String,Object>> autListProjectsResultDetails(){
 		return autGetDataTableByProperties(AUT_PROJECT_EXEC_DETAIL_OPERATIONS.SELECT_ALL_SCENARIO_ITEM.toString(), AUT_PROJECT_DETAIL_PROPERTIES.class, new Object[] {});
+	}
+	
+	/**
+	 * 
+	 * Limpa as configurações e itens relacionados a execução do projeto específicado
+	 * 
+	 * @param parameters -  Parametros de configuração para o comando
+	 * 
+	 * @return boolean - Sucesso caso o processo seja finalizado com sucesso false caso contrário
+	 * 
+	 */
+	public boolean autDeleteProjetExecutionDetails(Object[] parameters) {
+		try {
+			System.out.println("AUT INFO: DELETE PROJECTS EXECUTION DETAILS BY ID: INIT");
+			
+			autExecSubStatementsDefault(AUT_PROJECT_EXEC_DETAIL_OPERATIONS.DELETE_DETAILS_EXECUTION_BY_ID.toString(), parameters);
+			
+			System.out.println("AUT INFO: DELETE PROJECTS EXECUTION DETAILS BY ID: END");
+			return true;
+		}
+		catch(java.lang.Exception e) {
+			System.out.println("AUT ERROR: DELETE PROJECTS EXECUTION DETAILS BY ID");
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			
+			return false;
+		}
 	}
 	/**
 	 * 

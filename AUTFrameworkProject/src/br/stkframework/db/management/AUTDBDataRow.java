@@ -160,6 +160,11 @@ public class AUTDBDataRow extends AUTDBDataTable {
 		}
 	}
 	
+	public <TAreaNegocio extends AUTDBBusinessAreas> Object autSetRow(TAreaNegocio area){
+		
+		
+		return null;
+	}
 		
 	/**
 	 * 

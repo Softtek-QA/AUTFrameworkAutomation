@@ -147,6 +147,11 @@ public class AUTJDBCProcess extends AUTDBConnection{
 		}
 	}
 
+	
+	public boolean autExecSubStatementsDefault(String sql,Object[] parametros) {
+		autStartDefaultConnection();
+		return autExecSubStatements(sql, parametros);
+	}
 	/**
 	 * Executa procedimento SQL que retorna um conjunto de dados
 	 * 
@@ -177,6 +182,12 @@ public class AUTJDBCProcess extends AUTDBConnection{
 		}
 	}
 
+	
+	public java.sql.ResultSet autExecSubStatementsWithResultDefault(String sql,Object[] parametros) {		
+		autStartDefaultConnection();
+
+		return autExecSubStatementsWithResult(sql, parametros);	
+	}
 
 	/**
 	 * Lista todas as colunas incluídas em uma tabela de dados

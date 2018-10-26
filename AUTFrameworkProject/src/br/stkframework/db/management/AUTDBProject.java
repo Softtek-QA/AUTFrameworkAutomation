@@ -62,8 +62,7 @@ public class AUTDBProject extends AUTJDBCProcess {
 		}
 	}
 
-
-
+	
 	/**
 	 * Enumera as opções possível de operações que podem ser realizados para um projeto
 	 * 
