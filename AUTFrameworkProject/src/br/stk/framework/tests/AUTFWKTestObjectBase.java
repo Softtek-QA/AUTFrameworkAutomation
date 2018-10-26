@@ -433,6 +433,26 @@ public class AUTFWKTestObjectBase {
 		return (TProjectExecOverview) new AUTDBProjectExecutionsOverview();
 	}
 
+	
+	public <TStateExecution extends java.lang.Enum>boolean autSyncStateExecution(TStateExecution optionState) {
+		try {
+			System.out.println("AUT INFO: SYNC STATE FOR EXECUTION : INIT");
+			String projectId = autGetCurrentScenarioRuntime().autGetIdNumber();
+			String scenarioId = autGetCurrentScenarioRuntime().AUT_SCENARIO_FULL_NAME;
+			autTestExecProcessDataBase(optionState.toString(), new Object[] {scenarioId,projectId});
+			System.out.println("AUT INFO: SYNC STATE FOR EXECUTION : END");
+			return true;
+		}
+		catch(java.lang.Exception e) {
+			System.out.println("AUT ERROR: SYNC STATE FOR EXECUTION");
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			
+			return false;
+		}
+	}
+	
+	
 	public <TOption extends java.lang.Enum> void autTestExecProcessDataBase(String sqlDefinition,Object[] parameters) {
 		try {
 			System.out.println("AUT TEST OBJECT : PROCESS UPDATE PROJECTS BY IDS : START");
@@ -468,6 +488,9 @@ public class AUTFWKTestObjectBase {
 	/**
 	 * 
 	 * Valida se existe um cenário na pilha de execução
+	 * 
+	 * Formato padrão do método de chamada do cenário : AUT_IT000012_STVA_ID00001_FRT001_CN00001_CADASTRO_ITEMS
+	 * 
 	 * 
 	 */
 	public static <TScenarioConfig extends AUTRuntimeExecutionScenario> TScenarioConfig autGetCurrentScenarioRuntime() {
@@ -684,7 +707,6 @@ public class AUTFWKTestObjectBase {
 			AUTDBProjectsExecutionDetail pjt = autGetProjectDetailManagement();
 			pjt.autStartDefaultConnection();
 			pjt.autInsertResourceImageExecution(projectId, scenario, autSyncronizeScreen());
-
 			System.out.println("AUT INFO  : INSERT SCREEN BY PROJECT : END");
 			return true;
 		}
@@ -696,6 +718,19 @@ public class AUTFWKTestObjectBase {
 			return false;
 		}
 	}
+	
+	/**
+	 * Inclusão uma nova imagem de sincronização do status de execução durante o processo de configuração
+	 * 
+	 * @return boolean - True caso o processo seja finalizado com sucesso false caso contrário
+	 */
+	public boolean autInsertScreenByScenario() {
+		String projectId = autGetCurrentScenarioRuntime().autGetIdNumber();
+		String scenarioName = autGetCurrentScenarioRuntime().AUT_SCENARIO_FULL_NAME;
+		autInsertScreenByScenario(projectId, scenarioName);
+		return true;
+	}
+	
 	/**
 	 * 
 	 * Construtor padrão da classe
