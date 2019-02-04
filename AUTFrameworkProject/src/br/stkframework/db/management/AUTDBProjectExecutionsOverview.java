@@ -138,6 +138,6 @@ public class AUTDBProjectExecutionsOverview extends AUTDBProject {
 	 * 
 	 */
 	public AUTDBProjectExecutionsOverview() {
-		
+		autStartDefaultConnection();
 	}
 }

@@ -71,6 +71,7 @@ public class AUTDBConnection extends AUTDBUtils{
 		propItems.setProperty("password", pwd);
 		propItems.setProperty("port", port.toString());
 		propItems.setProperty("serverTimezone", "UTC");			
+		propItems.setProperty("verifyServerCertificate", "false");
 		con = driver.connect(String.format("jdbc:mysql://%s/%s",host,dataBase),propItems);
 		System.out.println(pwd);
 		System.out.println(String.format("SGDB: %s : VERSION: %s : CONNECTOR JDBC: %s",

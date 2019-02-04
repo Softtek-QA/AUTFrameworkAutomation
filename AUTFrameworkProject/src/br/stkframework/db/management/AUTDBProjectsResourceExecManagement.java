@@ -40,7 +40,7 @@ public class AUTDBProjectsResourceExecManagement extends AUTDBProjectsExecutionD
 			// TODO Auto-generated method stub
 			switch(this) {
 			case SELECT_ID_RESOURCE_BY_SCENARIO:{
-				return "SELECT STD_ID FROM LRY.aut_projects_status_details WHERE PJT_ID=? AND STD_ITEM_CONFIGURATION=?";
+				return "SELECT STD_ID FROM LRY.aut_projects_status_details WHERE PJT_ID=? AND STD_ITEM_CONFIGURATION LIKE ?";
 			}
 			case DELETE_RESOURCES_BY_EXECUTION_ID:{
 				return "DELETE FROM LRY.AUT_PROJECTS_OUTPUT_DATA WHERE STD_ID IN ((SELECT STD_ID FROM LRY.aut_projects_status_details WHERE PJT_ID=?));";

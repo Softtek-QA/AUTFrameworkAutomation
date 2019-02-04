@@ -5,12 +5,314 @@ package br.stk.framework.tests;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.borland.silktest.jtf.BaseState;
+import com.borland.silktest.jtf.BrowserBaseState;
+import com.borland.silktest.jtf.Desktop;
 
 import br.stk.framework.db.connectors.AUTConnectorGlobalConfiguration.AUT_GLOBAL_CONFIGURATION;
 import br.stk.framework.gui.network.connectors.AUTNTWUtils;
+import br.stk.framework.tests.AUTFWKTestObjectBase.AUTBusinessObject;
 import br.stkframework.db.management.AUTDBProjectExecutionsOverview;
 import br.stkframework.db.management.AUTDBProjectsExecutionDetail;
 import junit.framework.JUnit4TestAdapter;
+
+
+class AUTProcessRuntimeData{
+	public String AUT_SCANARIOS = "TESTES";
+	public static enum AUT_TYPE_OF_SUITE_OBJECTS{
+		AUT_STRING,
+		AUT_OBJECT,
+		AUT_HASH_DATA,
+		AUT_ENUMERATION,
+		AUT_TEST_OBJECT,
+		AUT_SCENARIO_OBJECT,
+		AUT_SUITE_OBJECT,
+		AUT_ALL_OBJECT,
+		AUT_BUSINESS_PARAMETERS;
+
+		@Override
+		public String toString() {
+			switch(this) {
+			case AUT_BUSINESS_PARAMETERS:{
+				return "br\\.stk\\.framework\\.tests\\.AUTFWKTestObjectBase\\$AUTBusinessObject";
+			}
+			case AUT_HASH_DATA:{
+				return "java\\.util\\.HashMap.*";
+			}
+			case AUT_OBJECT:{
+				return "java\\.lang\\.Object.*";
+			}
+			case AUT_STRING:{
+				return "java\\.lang\\.String.*";
+			}
+			case AUT_ENUMERATION:{
+				return "java\\.lang\\.Enum.*";
+			}
+			case AUT_TEST_OBJECT:{
+				return "AUT\\_.*";
+			}
+			case AUT_ALL_OBJECT:{
+				String outTypes = "(?i:";
+				for(java.lang.Enum enu : this.getClass().getEnumConstants()) {
+					if(enu.name()!=AUT_ALL_OBJECT.name()) {
+						outTypes+=enu.toString().concat("|");
+					}
+				}
+				outTypes+=")";	
+				outTypes = outTypes.replaceAll("\\|\\)", ")");
+				return outTypes;
+			}
+			case AUT_SCENARIO_OBJECT:{
+				return "AUT_SCENARIO_.*";
+			}
+			case AUT_SUITE_OBJECT:{
+				return "AUT_SUITE_.*";
+			}
+			default:{
+				return this.getClass().getName();
+			}
+			}
+		}		
+	}
+
+
+	public  <TTypeClass extends br.stk.framework.tests.AUTFWKTestObjectBase.AUTBusinessObject<AUTFWKTestObjectBase>,
+	TTypeObject extends java.lang.Enum<AUT_TYPE_OF_SUITE_OBJECTS>> boolean autRTIsSuperClass(TTypeClass classeObjeto,TTypeObject optionSelect) {
+		return ((autGetRTSuperClass(classeObjeto, optionSelect)!=null ? true : false));
+	} 
+	
+	public  static <TTypeClass extends br.stk.framework.tests.AUTFWKTestObjectBase.AUTBusinessObject<AUTFWKTestObjectBase>,
+	TTypeObject extends java.lang.Enum<AUT_TYPE_OF_SUITE_OBJECTS>> String autGetRTSuperClass(TTypeClass classeObjeto,TTypeObject optionSelect) {
+		Class currentItem = classeObjeto.getClass().getSuperclass();
+		String nameOut = "";
+		java.util.regex.Pattern regExp = java.util.regex.Pattern.compile(optionSelect.toString());
+		boolean statusPesquisa = false;	
+			while(currentItem != null) {				
+				try {
+					nameOut = currentItem.getName();
+					java.util.regex.Matcher verifRegExp = regExp.matcher(nameOut);
+					if(verifRegExp.find()) {
+						System.out.println(String.format("AUT INFO: CLASS FOUND BY OBJECT: %s",optionSelect.name()));
+						System.out.println(nameOut);
+						statusPesquisa = true;
+						return verifRegExp.group();
+					}
+					currentItem = currentItem.getSuperclass();
+					
+				}
+				catch(java.lang.NullPointerException e) {
+					currentItem = null;
+				}
+			}			
+			
+			if(!statusPesquisa) {
+				nameOut = null;
+			}
+			
+			return nameOut;
+	}
+
+	
+
+	public static <TAUTObject extends AUTBusinessObject<AUTFWKTestObjectBase>> java.util.HashMap<String,Object> autGetRuntimeDataObjects(TAUTObject classObject,AUT_TYPE_OF_SUITE_OBJECTS typesOutput) throws IllegalArgumentException, IllegalAccessException{
+		java.util.HashMap<String,Object> dataObjs = new java.util.HashMap<String,Object>();
+		String searchObject = typesOutput.toString();
+		java.util.regex.Pattern regExp = java.util.regex.Pattern.compile(searchObject);
+
+		java.util.regex.Matcher verifExp = null;
+		java.util.regex.Matcher verifTypeExp = null;
+		
+		for(java.lang.reflect.Field fld : classObject.getClass().getFields()) {
+			String name = fld.getName();
+			verifExp = regExp.matcher(name);
+			verifTypeExp = regExp.matcher(fld.getType().getName());
+			boolean bVerifName = verifExp.find();
+			boolean bVerifType = verifTypeExp.find();
+
+			if(bVerifName || bVerifType) {
+
+				if(bVerifName) {
+					System.out.println("AUT INFO: FIND BY NAME : NAME");				
+				}
+				else {
+					System.out.println("AUT INFO: FIND BY TYPE : NAME");									
+				}
+
+				System.out.println("AUT INFO: DATA OBJECT : NAME");
+				System.out.println(fld.getName());
+				System.out.println("AUT INFO: DATA OBJECT : TYPE");
+				System.out.println(fld.getType().getName());		
+				System.out.println("AUT INFO: DATA OBJECT : VALUE");
+				System.out.println(fld.get(classObject));	
+				
+				if(dataObjs.containsKey(name)) {
+					dataObjs.remove(name);
+					dataObjs.put(name, fld.get(classObject));
+				}
+				else {
+					dataObjs.put(name, fld.get(classObject));				
+				}
+			}
+		}
+		return dataObjs;
+	}
+
+
+	/**
+	 * 
+	 * Retorna os definidos em tempo de execução
+	 * 
+	 * 
+	 * @return java.util.HashMap - Dados gerados em tempo de execução
+	 * 
+	 */
+	public  <TAUTObject extends AUTBusinessObject> java.util.HashMap<String,Object> autGetRuntimeDataObject(TAUTObject runtimeClass,AUT_TYPE_OF_SUITE_OBJECTS typeObject){
+		java.util.HashMap<String,Object> dataOut = new java.util.HashMap<String,Object>();
+		switch(typeObject) {
+		case AUT_BUSINESS_PARAMETERS:{	
+			System.out.println("AUT INFO : FILTRO DE PESQUISA (BUSINESS OBJECT) EM TEMPO DE EXECUCAO: HABILITADO");
+			autGetRTSuperClass(runtimeClass,AUT_TYPE_OF_SUITE_OBJECTS.AUT_BUSINESS_PARAMETERS);
+			try {
+				dataOut = AUTProcessRuntimeData.autGetRuntimeDataObjects(runtimeClass, typeObject);			
+			} catch (IllegalArgumentException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}						
+			return dataOut;
+		}
+		case AUT_ALL_OBJECT:{
+			System.out.println("AUT INFO : FILTRO DE PESQUISA (ALL OBJECTS TYPES) EM TEMPO DE EXECUCAO: HABILITADO");
+			try {
+				dataOut = AUTProcessRuntimeData.autGetRuntimeDataObjects(runtimeClass, typeObject);			
+			} catch (IllegalArgumentException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}						
+			return dataOut;			
+		}
+		case AUT_ENUMERATION:{
+			System.out.println("AUT INFO : FILTRO DE PESQUISA (ENUMERATION) EM TEMPO DE EXECUCAO: HABILITADO");
+			try {
+				dataOut = AUTProcessRuntimeData.autGetRuntimeDataObjects(runtimeClass, typeObject);			
+			} catch (IllegalArgumentException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}						
+			return dataOut;			
+		}
+		case AUT_HASH_DATA:{
+			System.out.println("AUT INFO : FILTRO DE PESQUISA (HASH OBJECT) EM TEMPO DE EXECUCAO: HABILITADO");
+			try {
+				dataOut = AUTProcessRuntimeData.autGetRuntimeDataObjects(runtimeClass, typeObject);			
+			} catch (IllegalArgumentException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}						
+			return dataOut;			
+		}
+		case AUT_OBJECT:{
+			System.out.println("AUT INFO : FILTRO DE PESQUISA (TYPE OBJECT) EM TEMPO DE EXECUCAO: HABILITADO");
+			try {
+				dataOut = AUTProcessRuntimeData.autGetRuntimeDataObjects(runtimeClass, typeObject);			
+			} catch (IllegalArgumentException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}						
+			return dataOut;			
+		}
+		case AUT_SCENARIO_OBJECT:{
+			try {
+				System.out.println("AUT INFO : FILTRO DE PESQUISA (SCENARIO OBJECTS) EM TEMPO DE EXECUCAO: HABILITADO");
+				dataOut = AUTProcessRuntimeData.autGetRuntimeDataObjects(runtimeClass, typeObject);			
+			} catch (IllegalArgumentException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}						
+			return dataOut;			
+		}
+		case AUT_STRING:{
+			System.out.println("AUT INFO : FILTRO DE PESQUISA (STRING) EM TEMPO DE EXECUCAO: HABILITADO");
+			try {
+				dataOut = AUTProcessRuntimeData.autGetRuntimeDataObjects(runtimeClass, typeObject);			
+			} catch (IllegalArgumentException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}						
+			return dataOut;			
+		}
+		case AUT_SUITE_OBJECT:{
+			System.out.println("AUT INFO : FILTRO DE PESQUISA (SUITE OBJECT) EM TEMPO DE EXECUCAO: HABILITADO");
+			try {
+				dataOut = AUTProcessRuntimeData.autGetRuntimeDataObjects(runtimeClass, typeObject);			
+			} catch (IllegalArgumentException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}						
+			return dataOut;			
+		}
+		case  AUT_TEST_OBJECT:{
+			System.out.println("AUT INFO : FILTRO DE PESQUISA (TEST OBJECT) EM TEMPO DE EXECUCAO: HABILITADO");
+			try {
+				dataOut = AUTProcessRuntimeData.autGetRuntimeDataObjects(runtimeClass, typeObject);			
+			} catch (IllegalArgumentException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}						
+			return dataOut;			
+		}
+		default:{
+			System.out.println("AUT INFO : FILTRO DE PESQUISA GERAL PARA OBJETOS EM TEMPO DE EXECUCAO: HABILITADO");
+			try {
+				dataOut = AUTProcessRuntimeData.autGetRuntimeDataObjects(runtimeClass, typeObject);			
+			} catch (IllegalArgumentException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}						
+			return dataOut;			
+		}
+		}
+	}
+
+
+
+	public AUTProcessRuntimeData() {
+		// TODO Auto-generated constructor stub
+	}
+
+}
 
 /**
  * 
@@ -20,11 +322,13 @@ import junit.framework.JUnit4TestAdapter;
  * @author Softtek - QA
  *
  */
-public class AUTFWKTestObjectBase {
+public class AUTFWKTestObjectBase extends AUTProcessRuntimeData{
 	private String autEnvironmentDirDefault = "temp";
 	private String autDefaultDirOutput = "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\AUT_OUTPUT_FILES";
-	public com.borland.silktest.jtf.Desktop AUT_AGENT_SILK4J = null;
+	public static Desktop AUT_AGENT_SILK4J = new Desktop();  //Objeto de conexão com aplicação da automação
+	public BrowserBaseState AUT_BASE_STATE_CONFIGURATION_BROWSER = null; //Objeto base de configuraçao do browser	
 	public java.util.List<String> AUT_LIST_PROJECTS_LOADER; //Lista de projetos corrente de projetos associados a execução atual
+	public AUTDBProjectsExecutionDetail AUT_PROJECT_EXECUTION_DETAIL_OBJ = null;
 	/**
 	 * Enumera as opções de configuração para expressões regulares de configuração, usadas na carga de parametros em empo 
 	 * 
@@ -72,6 +376,94 @@ public class AUTFWKTestObjectBase {
 		}
 	}
 
+
+	
+
+
+
+	public static class AUTBusinessParameters extends AUTBusinessObject{
+		java.util.HashMap<String,AUTBusinessObject> hashData = null;
+
+		public java.util.HashMap<String,AUTBusinessObject> autGetRTBusinessData(){
+			return hashData;
+		}
+	}
+
+
+	/**
+	 * 
+	 * Objeto do negócio - Representa um objeto significativo para o negócio, seu tipo pode variar de um tipo primitivo de dados até
+	 * uma classe complexa com sistema próprio para o gerenciamento de dados
+	 * 
+	 * @author Softtek-QA
+	 *
+	 */
+	public static abstract class AUTBusinessObject<TFrameworkObject extends AUTFWKTestObjectBase> implements Map.Entry{
+		public boolean AUT_IS_DYNAMIC_DATA = false;
+		private String AUT_NAME = this.getClass().getName();
+		private Object AUT_VALUE = null;
+		java.util.HashMap<String, String> hashData = null;
+		TFrameworkObject dataManagement = null;
+		
+		public java.util.HashMap<String,Object> autGetRuntimeData(){
+			dataManagement = (TFrameworkObject) new AUTFWKTestObjectBase();
+			return dataManagement.autGetRuntimeDataObject(this, AUT_TYPE_OF_SUITE_OBJECTS.AUT_ALL_OBJECT);
+		}
+		
+		/**
+		 * 
+		 * Desabilita a sincronização de dados com o banco de dados para o parametros
+		 * 
+		 */
+		public void disableDynamicData() {
+			AUT_IS_DYNAMIC_DATA = false;
+		}
+
+
+		/**
+		 * 
+		 * Habilita a sincronização de dados dinâmicamente com o banco de dados
+		 * 
+		 */
+		public void enableDynamicData() {
+			AUT_IS_DYNAMIC_DATA = true;
+		}
+
+		/**
+		 * 
+		 * Retorna a chave de identificação do objeto
+		 * 
+		 */
+		@Override
+		public Object getKey() {
+			// TODO Auto-generated method stub
+			return AUT_NAME;
+		}
+
+		/**
+		 * 
+		 * Retorna o valor da chave do objeto
+		 * 
+		 */
+		@Override
+		public Object getValue() {
+			// TODO Auto-generated method stub
+			return AUT_VALUE;
+		}
+
+		/**
+		 * 
+		 * 
+		 */
+		@Override
+		public Object setValue(Object newValue) {
+			// TODO Auto-generated method stub			
+			AUT_VALUE = newValue;
+
+			return getValue();
+		}				
+	}
+
 	public static class AUTRuntimeExecutionScenario{
 		java.util.regex.Pattern regExp = java.util.regex.Pattern.compile("\\d+");
 		java.util.regex.Matcher verifId = null;
@@ -82,6 +474,7 @@ public class AUTFWKTestObjectBase {
 		public String AUT_SCENARIO_FULL_NAME = null;
 		public String AUT_SYSTEM = null;
 		public String AUT_INDEX_EXECUTION = null;
+
 		/**
 		 * 
 		 * Retorna o dígito numérico relacionado ao ID do projeto
@@ -433,13 +826,14 @@ public class AUTFWKTestObjectBase {
 		return (TProjectExecOverview) new AUTDBProjectExecutionsOverview();
 	}
 
-	
+
 	public <TStateExecution extends java.lang.Enum>boolean autSyncStateExecution(TStateExecution optionState) {
 		try {
 			System.out.println("AUT INFO: SYNC STATE FOR EXECUTION : INIT");
 			String projectId = autGetCurrentScenarioRuntime().autGetIdNumber();
 			String scenarioId = autGetCurrentScenarioRuntime().AUT_SCENARIO_FULL_NAME;
 			autTestExecProcessDataBase(optionState.toString(), new Object[] {scenarioId,projectId});
+			autSyncronizeScreen();
 			System.out.println("AUT INFO: SYNC STATE FOR EXECUTION : END");
 			return true;
 		}
@@ -447,12 +841,11 @@ public class AUTFWKTestObjectBase {
 			System.out.println("AUT ERROR: SYNC STATE FOR EXECUTION");
 			System.out.println(e.getMessage());
 			e.printStackTrace();
-			
 			return false;
 		}
 	}
-	
-	
+
+
 	public <TOption extends java.lang.Enum> void autTestExecProcessDataBase(String sqlDefinition,Object[] parameters) {
 		try {
 			System.out.println("AUT TEST OBJECT : PROCESS UPDATE PROJECTS BY IDS : START");
@@ -473,7 +866,13 @@ public class AUTFWKTestObjectBase {
 	 * 
 	 */
 	public com.borland.silktest.jtf.Desktop autGetDesktopAgent() {
-		return AUT_AGENT_SILK4J;
+		if(AUT_AGENT_SILK4J!=null) {
+			return AUT_AGENT_SILK4J;
+		}
+		else {
+			AUT_AGENT_SILK4J = new Desktop();
+			return AUT_AGENT_SILK4J;
+		}
 	}
 
 	/**
@@ -585,7 +984,6 @@ public class AUTFWKTestObjectBase {
 			Date dt = new Date();
 			String fileName = "AUT_".concat(dt.toInstant().toString().replaceAll("\\W", "")).concat(".png");		
 			System.out.println("FWK OBJECT : INFO : SYNCRONIZE SCREEN : INIT");
-
 			String dirOut = autGetDefaultDirOutputFiles();
 			String FileOut = "%s\\%s";
 			String fileNameFull = String.format(FileOut,dirOut,fileName);
@@ -593,7 +991,7 @@ public class AUTFWKTestObjectBase {
 			byte[] bytesOut = java.nio.file.Files.readAllBytes(java.nio.file.Paths.get(fileNameOutSilk));
 			System.out.println(fileNameOutSilk);
 
-			System.out.println("FWK OBJECT : ERROR : SYNCRONIZE SCREEN : END");
+			System.out.println("FWK OBJECT : INFO : SYNCRONIZE SCREEN : END");
 
 			return bytesOut;
 		}
@@ -627,65 +1025,75 @@ public class AUTFWKTestObjectBase {
 	 */
 	public void autInitConfigurationProjectExecution(Class<?> classTests) {
 		AUTJUnitManager junitMng = autGetJUnitManager();
+		java.util.List<String> pjtIdsExclude = new java.util.ArrayList<String>();
+		//java.util.HashMap<String,String> prmConfigFrenteProj = junitMng.autFindItemOnHash("AUT_\\d+_FRT\\d+", ".", junitMng.autGetTestList(classTests));
+		java.util.HashMap<String,String> prmConfigFrenteProj = junitMng.autFindItemOnHash(AUT_REG_EXPRESSION_CONFIG_TESTS.SCENARIO_TEST.toString(), ".", junitMng.autGetTestList(classTests));
 
-		java.util.HashMap<String,String> prmConfigFrenteProj = junitMng.autFindItemOnHash("AUT_\\d+_FRT\\d+", ".", junitMng.autGetTestList(classTests));
 		for(String key : prmConfigFrenteProj.keySet()) {
-			java.util.regex.Pattern padrao = java.util.regex.Pattern.compile("\\d+");
+			java.util.regex.Pattern padrao = java.util.regex.Pattern.compile(AUT_REG_EXPRESSION_CONFIG_TESTS.PROJECT_NAME.toString());
 			java.util.regex.Matcher analise = padrao.matcher(key);
 			if(analise.find()) {
-				AUT_TEST_CONFIGURATION.AUT_ID_PROJETO = Integer.parseInt(analise.group());
-				AUT_LIST_PROJECTS_LOADER.add(AUT_TEST_CONFIGURATION.AUT_ID_PROJETO.toString());
+				java.util.regex.Pattern pdrPjtId = java.util.regex.Pattern.compile("\\d+");
+				java.util.regex.Matcher anlPjtId = pdrPjtId.matcher(analise.group());
+				if(anlPjtId.find()) {
+					AUT_TEST_CONFIGURATION.AUT_ID_PROJETO = Integer.parseInt(anlPjtId.group());					
+				}
+				else {
+					new Throwable("AUT ERROR: PROJECT ID NOT INCLUDED ON SUITE NAME FROM TEST");
+				}
 
-				padrao = padrao.compile("FRT\\d+");
+				padrao = padrao.compile(AUT_REG_EXPRESSION_CONFIG_TESTS.PROJECT_NAME.toString());
 				analise = padrao.matcher(key);
 				if(analise.find()) {
 					AUT_TEST_CONFIGURATION.AUT_FRENTE_PROJETO=analise.group();
 
 					System.out.println(String.format("FRENTE DE PROJETO: %s", AUT_TEST_CONFIGURATION.AUT_FRENTE_PROJETO));		
 					System.out.println(String.format("ID DO PROJETO: %s", AUT_TEST_CONFIGURATION.AUT_ID_PROJETO));
-					autGetProjectDetailManagement().autDeleteProjetExecutionDetails(new Object[] {AUT_TEST_CONFIGURATION.AUT_ID_PROJETO});
-					autGetProjectManagerOverview().autInsertProjectExecutionOverview(new Object[] {
-							AUT_TEST_CONFIGURATION.AUT_ID_PROJETO,			
-							AUT_TEST_CONFIGURATION.AUT_TOTAL_MODULOS,
-							AUT_TEST_CONFIGURATION.AUT_TOTAL_SCENARIOS,
-							AUT_TEST_CONFIGURATION.AUT_TOTAL_TEST_CASE,
-							AUT_TEST_CONFIGURATION.AUT_TOTAL_MODULOS_STATUS_PASSED,
-							AUT_TEST_CONFIGURATION.AUT_TOTAL_SCENARIOS_STATUS_PASSED,
-							AUT_TEST_CONFIGURATION.AUT_TOTAL_TEST_CASE_STATUS_PASSED,
-							AUT_TEST_CONFIGURATION.AUT_TOTAL_MODULOS_STATUS_FAILED,
-							AUT_TEST_CONFIGURATION.AUT_TOTAL_SCENARIOS_STATUS_FAILED,
-							AUT_TEST_CONFIGURATION.AUT_TOTAL_TEST_CASE_STATUS_FAILED,
-							AUT_TEST_CONFIGURATION.AUT_TOTAL_MODULOS_EXEC_IN_PROGRESS,
-							AUT_TEST_CONFIGURATION.AUT_TOTAL_SCENARIOS_EXEC_IN_PROGRESS,
-							AUT_TEST_CONFIGURATION.AUT_TOTAL_TEST_CASE_EXEC_IN_PROGRESS
-
-					});
-					String hostItem = AUTNTWUtils.autGetInterfaceInfo().get("HOST:1").toString();
-					AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_PJT_ID=AUT_TEST_CONFIGURATION.AUT_ID_PROJETO;
-					AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_DSK_ID="0";
-					AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_VM_ID="0";
-					AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_DSK_IP=hostItem.split("/")[1];
-					AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_VM_IP=hostItem.split("/")[1];
-					AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_VM_NAME=hostItem.split("/")[0];
-					AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_DSK_NAME=hostItem.split("/")[0];
-					AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_STD_ITEM_CONFIGURATION=AUT_TIPO_ITEM_CONFIGURACAO.SCENARIO.toString();
-					//AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_STD_STATUS=A;
-					for(String item : junitMng.autGetTestList(classTests).keySet()) {
-						AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_STD_ITEM_CONFIGURATION = item;
-						autGetProjectDetailManagement().autInsertScenarioExecutionDetail(new Object[]{
-								AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_PJT_ID,
-								AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_DSK_ID, 
-								AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_VM_ID,
-								AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_DSK_NAME,
-								AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_VM_NAME, 
-								AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_DSK_IP,
-								AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_VM_IP,
-								AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_STD_ITEM_CONFIGURATION,
-								AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_STD_STATUS
-						});
-
-					}
 				}
+
+				autGetProjectManagerOverview().autInsertProjectExecutionOverview(new Object[] {
+						AUT_TEST_CONFIGURATION.AUT_ID_PROJETO,			
+						AUT_TEST_CONFIGURATION.AUT_TOTAL_MODULOS,
+						AUT_TEST_CONFIGURATION.AUT_TOTAL_SCENARIOS,
+						AUT_TEST_CONFIGURATION.AUT_TOTAL_TEST_CASE,
+						AUT_TEST_CONFIGURATION.AUT_TOTAL_MODULOS_STATUS_PASSED,
+						AUT_TEST_CONFIGURATION.AUT_TOTAL_SCENARIOS_STATUS_PASSED,
+						AUT_TEST_CONFIGURATION.AUT_TOTAL_TEST_CASE_STATUS_PASSED,
+						AUT_TEST_CONFIGURATION.AUT_TOTAL_MODULOS_STATUS_FAILED,
+						AUT_TEST_CONFIGURATION.AUT_TOTAL_SCENARIOS_STATUS_FAILED,
+						AUT_TEST_CONFIGURATION.AUT_TOTAL_TEST_CASE_STATUS_FAILED,
+						AUT_TEST_CONFIGURATION.AUT_TOTAL_MODULOS_EXEC_IN_PROGRESS,
+						AUT_TEST_CONFIGURATION.AUT_TOTAL_SCENARIOS_EXEC_IN_PROGRESS,
+						AUT_TEST_CONFIGURATION.AUT_TOTAL_TEST_CASE_EXEC_IN_PROGRESS
+
+				});
+
+				String hostItem = AUTNTWUtils.autGetInterfaceInfo().get("HOST:1").toString();
+				AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_PJT_ID=AUT_TEST_CONFIGURATION.AUT_ID_PROJETO;
+				AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_DSK_ID="0";
+				AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_VM_ID="0";
+				AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_DSK_IP=hostItem.split("/")[1];
+				AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_VM_IP=hostItem.split("/")[1];
+				AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_VM_NAME=hostItem.split("/")[0];
+				AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_DSK_NAME=hostItem.split("/")[0];
+				AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_STD_ITEM_CONFIGURATION=AUT_TIPO_ITEM_CONFIGURACAO.SCENARIO.toString();
+
+				AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_STD_ITEM_CONFIGURATION = key;
+				if(!pjtIdsExclude.contains(AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_PJT_ID.toString())) {
+					pjtIdsExclude.add(AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_PJT_ID.toString());
+					autGetProjectDetailManagement().autDeleteProjetExecutionDetails(new Object[] {AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_PJT_ID.toString()});
+				}
+				autGetProjectDetailManagement().autInsertScenarioExecutionDetail(new Object[]{
+						AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_PJT_ID,
+						AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_DSK_ID, 
+						AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_VM_ID,
+						AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_DSK_NAME,
+						AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_VM_NAME, 
+						AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_DSK_IP,
+						AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_VM_IP,
+						AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_STD_ITEM_CONFIGURATION,
+						AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_STD_STATUS
+				});
 			}
 		}
 
@@ -697,16 +1105,25 @@ public class AUTFWKTestObjectBase {
 		autInitConfigurationProjectExecution(classTests);
 	}
 
+	public <TTestStatus extends java.lang.Enum> void autInitConfigurationProjectExecution(Class<?> classTests,TTestStatus statusPadrao) {
+		AUT_TEST_CONFIGURATION.AUT_TEST_CONFIG.AUT_STD_STATUS=statusPadrao.toString();
+		autInitConfigurationProjectExecution(classTests);
+	}
+
 	public <TProjectExecDetail extends AUTDBProjectsExecutionDetail> TProjectExecDetail autGetProjectDetailManagement() {		
-		return (TProjectExecDetail) new AUTDBProjectsExecutionDetail();
+		if(AUT_PROJECT_EXECUTION_DETAIL_OBJ==null) {
+			AUT_PROJECT_EXECUTION_DETAIL_OBJ = new AUTDBProjectsExecutionDetail();
+			return (TProjectExecDetail) new AUTDBProjectsExecutionDetail();
+		}
+		else {
+			return (TProjectExecDetail)AUT_PROJECT_EXECUTION_DETAIL_OBJ;
+		}
 	}
 
 	public boolean autInsertScreenByScenario(String projectId,String scenario) {
 		try {
 			System.out.println("AUT INFO  : INSERT SCREEN BY PROJECT : INIT");
-			AUTDBProjectsExecutionDetail pjt = autGetProjectDetailManagement();
-			pjt.autStartDefaultConnection();
-			pjt.autInsertResourceImageExecution(projectId, scenario, autSyncronizeScreen());
+			autGetProjectDetailManagement().autInsertResourceImageExecution(projectId, scenario, autSyncronizeScreen());
 			System.out.println("AUT INFO  : INSERT SCREEN BY PROJECT : END");
 			return true;
 		}
@@ -718,19 +1135,21 @@ public class AUTFWKTestObjectBase {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Inclusão uma nova imagem de sincronização do status de execução durante o processo de configuração
 	 * 
 	 * @return boolean - True caso o processo seja finalizado com sucesso false caso contrário
 	 */
-	public boolean autInsertScreenByScenario() {
+	public boolean autInsertScreenByScenario() {		
 		String projectId = autGetCurrentScenarioRuntime().autGetIdNumber();
 		String scenarioName = autGetCurrentScenarioRuntime().AUT_SCENARIO_FULL_NAME;
+
 		autInsertScreenByScenario(projectId, scenarioName);
+
 		return true;
 	}
-	
+
 	/**
 	 * 
 	 * Construtor padrão da classe

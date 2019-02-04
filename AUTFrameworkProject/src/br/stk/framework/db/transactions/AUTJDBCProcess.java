@@ -152,6 +152,7 @@ public class AUTJDBCProcess extends AUTDBConnection{
 		autStartDefaultConnection();
 		return autExecSubStatements(sql, parametros);
 	}
+	
 	/**
 	 * Executa procedimento SQL que retorna um conjunto de dados
 	 * 

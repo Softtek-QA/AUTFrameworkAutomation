@@ -54,7 +54,8 @@ public class AUTDBProjectsExecutionDetail extends AUTDBProject {
 		INSERT_TEST_CASE_ITEM,
 		SELECT_ALL_TEST_CASE_ITEM,
 		UPDATE_STATE_TEST_CASE_ITEM,
-		DELETE_DETAILS_EXECUTION_BY_ID;
+		DELETE_DETAILS_EXECUTION_BY_ID,
+		DELETE_DETAILS_EXECUTION_BY_ITEM_TEST_ID;
 		
 		@Override
 		public String toString() {
@@ -62,6 +63,9 @@ public class AUTDBProjectsExecutionDetail extends AUTDBProject {
 			switch(this) {
 			case DELETE_DETAILS_EXECUTION_BY_ID:{
 				return "DELETE FROM lry.aut_projects_status_details WHERE PJT_ID=?;";
+			}
+			case DELETE_DETAILS_EXECUTION_BY_ITEM_TEST_ID:{
+				return "DELETE FROM lry.aut_projects_status_details WHERE PJT_ID=? AND STD_ITEM_CONFIGURATION=?;";
 			}
 			case INSERT_MODULE_ITEM:{
 				return "INSERT INTO lry.aut_projects_status_details(PJT_ID," + 
@@ -157,7 +161,7 @@ public class AUTDBProjectsExecutionDetail extends AUTDBProject {
 	public boolean autInsertResourceImageExecution(String projectId,String scenarioName,Object resourceItem) {
 		try {		
 			System.out.println("AUT INFO : RESOURCE EXECUTION : INSERT NEW IMAGE : INIT");
-			autGetResourceManagement().autInsertResourceExecImage(new Object[] {autGetResourceManagement().autGetResourceIdByScenario(new Object[] {projectId,scenarioName}),projectId,scenarioName,resourceItem});
+			autGetResourceManagement().autInsertResourceExecImage(new Object[] {autGetResourceManagement().autGetResourceIdByScenario(new Object[] {projectId,scenarioName}),projectId,scenarioName,resourceItem});			
 			System.out.println("AUT INFO: RESOURCE EXECUTION : INSERT NEW IMAGE : END");						
 			return true;
 		}
@@ -239,6 +243,6 @@ public class AUTDBProjectsExecutionDetail extends AUTDBProject {
 	 * 
 	 */
 	public AUTDBProjectsExecutionDetail() {
-		
+		autStartDefaultConnection();
 	}
 }
