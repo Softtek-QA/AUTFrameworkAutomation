@@ -4,12 +4,12 @@
 package br.stk.framework.gui.backend.management;
 
 import br.stk.framework.db.connectors.AUTDBUtils.AUT_TYPE_COMPARE_PROPERTIES;
+import br.stk.framework.db.management.AUTDBContacts.AUT_CONTACTS_OPERATIONS;
+import br.stk.framework.db.management.AUTDBContacts.AUT_CONTACTS_SQL_PROPERTIES;
 import br.stk.framework.gui.backend.management.AUTBKEContactManagement.AUT_CONTACT_GUI_PROPERTIES;
 import br.stk.framework.gui.backend.management.AUTBKEUtils.AUTGUITable;
 import br.stk.framework.gui.backend.management.AUTBKEUtils.AUTGUITreeObject;
 import br.stk.framework.gui.logs.AUTLogsManage;
-import br.stkframework.db.management.AUTDBContacts.AUT_CONTACTS_OPERATIONS;
-import br.stkframework.db.management.AUTDBContacts.AUT_CONTACTS_SQL_PROPERTIES;
 
 /**
  * Gerenciamento de contatos via GUI

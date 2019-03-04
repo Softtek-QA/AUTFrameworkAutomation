@@ -11,17 +11,17 @@ import javax.swing.event.TableModelListener;
 import br.stk.framework.api.AUTAPI.AUTJDBCConector;
 import br.stk.framework.db.connectors.AUTDBUtils.AUT_DB_STATEMENTS_TEMPLATE;
 import br.stk.framework.db.connectors.AUTDBUtils.AUT_TYPE_COMPARE_PROPERTIES;
+import br.stk.framework.db.management.AUTDBProject;
+import br.stk.framework.db.management.AUTDBContacts.AUT_CONTACTS_OPERATIONS;
+import br.stk.framework.db.management.AUTDBContacts.AUT_CONTACTS_SQL_PROPERTIES;
+import br.stk.framework.db.management.AUTDBProject.AUT_GLOBAL_CONFIGURATION;
+import br.stk.framework.db.management.AUTDBProject.AUT_PROJECT_OPERATIONS;
+import br.stk.framework.db.management.AUTDBProject.AUT_PROJECT_SQL_PROPERTY;
 import br.stk.framework.db.transactions.AUTJDBCProcess;
 import br.stk.framework.gui.backend.management.AUTBKEContactManagement.AUT_CONTACT_GUI_PROPERTIES;
 import br.stk.framework.gui.logs.AUTLogsManage;
 import br.stk.framework.utils.AUTFMKUtils;
 import br.stk.framework.utils.AUTFMKUtils.AUTThreadProcess;
-import br.stkframework.db.management.AUTDBProject;
-import br.stkframework.db.management.AUTDBContacts.AUT_CONTACTS_OPERATIONS;
-import br.stkframework.db.management.AUTDBContacts.AUT_CONTACTS_SQL_PROPERTIES;
-import br.stkframework.db.management.AUTDBProject.AUT_GLOBAL_CONFIGURATION;
-import br.stkframework.db.management.AUTDBProject.AUT_PROJECT_OPERATIONS;
-import br.stkframework.db.management.AUTDBProject.AUT_PROJECT_SQL_PROPERTY;
 
 
 /**

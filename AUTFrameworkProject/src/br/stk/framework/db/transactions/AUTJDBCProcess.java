@@ -13,10 +13,10 @@ import br.stk.framework.db.connectors.AUTConnectorGlobalConfiguration;
 import br.stk.framework.db.connectors.AUTDBConnection;
 import br.stk.framework.db.connectors.AUTConnectorGlobalConfiguration.AUT_GLOBAL_CONFIGURATION;
 import br.stk.framework.db.connectors.AUTDBConnection.AUT_TYPE_SGDB;
+import br.stk.framework.db.management.AUTDBProject.AUT_PROJECT_SQL_PROPERTY;
 import br.stk.framework.gui.logs.AUTLogsManage;
 import br.stk.framework.utils.AUTFMKUtils;
 import br.stk.framework.utils.AUTFMKUtils.*;
-import br.stkframework.db.management.AUTDBProject.AUT_PROJECT_SQL_PROPERTY;
 /**
  * 
  * Responsável pelo gerenciamento dos processos que serão executados na SGDB destino :

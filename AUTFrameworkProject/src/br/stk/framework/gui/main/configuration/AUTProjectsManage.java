@@ -7,12 +7,12 @@ import java.awt.event.WindowEvent;
 import javax.swing.JTree;
 
 import br.stk.framework.api.AUTAPI;
+import br.stk.framework.db.management.AUTDBProject;
 import br.stk.framework.gui.backend.management.AUTBKEProjectManament;
 import br.stk.framework.gui.eventos.AUTEventsButtonParallelProcess;
 import br.stk.framework.gui.eventos.AUTEventsTreeObject;
 import br.stk.framework.gui.eventos.AUTEventsWindowManage;
 import br.stk.framework.gui.logs.AUTLogsManage;
-import br.stkframework.db.management.AUTDBProject;
 /**
  * GERENCIAMENTO DE DADOS DO PROJETOS
  * 

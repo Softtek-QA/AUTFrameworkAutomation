@@ -13,10 +13,11 @@ import com.borland.silktest.jtf.BrowserBaseState;
 import com.borland.silktest.jtf.Desktop;
 
 import br.stk.framework.db.connectors.AUTConnectorGlobalConfiguration.AUT_GLOBAL_CONFIGURATION;
+import br.stk.framework.db.management.AUTDBProcessDataFlow;
+import br.stk.framework.db.management.AUTDBProjectExecutionsOverview;
+import br.stk.framework.db.management.AUTDBProjectsExecutionDetail;
 import br.stk.framework.gui.network.connectors.AUTNTWUtils;
 import br.stk.framework.tests.AUTFWKTestObjectBase.AUTBusinessObject;
-import br.stkframework.db.management.AUTDBProjectExecutionsOverview;
-import br.stkframework.db.management.AUTDBProjectsExecutionDetail;
 import junit.framework.JUnit4TestAdapter;
 
 
@@ -474,7 +475,7 @@ public class AUTFWKTestObjectBase extends AUTProcessRuntimeData{
 		public String AUT_SCENARIO_FULL_NAME = null;
 		public String AUT_SYSTEM = null;
 		public String AUT_INDEX_EXECUTION = null;
-
+		public Object AUT_DATAFLOW_SEARCH_KEY = null;
 		/**
 		 * 
 		 * Retorna o dígito numérico relacionado ao ID do projeto
@@ -815,6 +816,14 @@ public class AUTFWKTestObjectBase extends AUTProcessRuntimeData{
 
 	}
 
+	/**
+	 * Retorna o gerenciador de dataflow para integração de dados
+	 * 
+	 * @return AUTDBProcessDataFlow - Interface DataFlow
+	 */
+	public <TDataFlowItem extends AUTDBProcessDataFlow> TDataFlowItem autGetDataFlowDBIntegration() {
+		return (TDataFlowItem)new AUTDBProcessDataFlow();
+	}
 	/**
 	 * 
 	 * Retorna o objeto de gerenciamento para execuções dos projetos - Execução resumidas por frente de negócio

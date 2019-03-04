@@ -3,7 +3,7 @@
  */
 package br.stk.framework.db.connectors;
 
-import br.stkframework.db.management.AUTDBSessionsUsers;
+import br.stk.framework.db.management.AUTDBSessionsUsers;
 
 /**
  * 

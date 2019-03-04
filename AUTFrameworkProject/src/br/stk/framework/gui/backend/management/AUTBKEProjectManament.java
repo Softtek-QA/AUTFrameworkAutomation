@@ -4,13 +4,13 @@
 package br.stk.framework.gui.backend.management;
 
 import br.stk.framework.api.AUTAPI;
+import br.stk.framework.db.management.AUTDBProject;
+import br.stk.framework.db.management.AUTDBProject.AUT_GLOBAL_CONFIGURATION;
+import br.stk.framework.db.management.AUTDBProject.AUT_PROJECT_OPERATIONS;
+import br.stk.framework.db.management.AUTDBProject.AUT_PROJECT_SQL_PROPERTY;
 import br.stk.framework.gui.backend.management.AUTBKEUtils.AUTGUIObjectBase;
 import br.stk.framework.gui.backend.management.AUTBKEUtils.AUTGUITreeObject;
 import br.stk.framework.gui.logs.AUTLogsManage;
-import br.stkframework.db.management.AUTDBProject;
-import br.stkframework.db.management.AUTDBProject.AUT_GLOBAL_CONFIGURATION;
-import br.stkframework.db.management.AUTDBProject.AUT_PROJECT_OPERATIONS;
-import br.stkframework.db.management.AUTDBProject.AUT_PROJECT_SQL_PROPERTY;
 
 
 /**
