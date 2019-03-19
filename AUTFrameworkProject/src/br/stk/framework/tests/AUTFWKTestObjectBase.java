@@ -12,10 +12,13 @@ import com.borland.silktest.jtf.BaseState;
 import com.borland.silktest.jtf.BrowserBaseState;
 import com.borland.silktest.jtf.Desktop;
 
+import br.stk.framework.api.AUTAPI.AUTProcessoExternoUtils;
 import br.stk.framework.db.connectors.AUTConnectorGlobalConfiguration.AUT_GLOBAL_CONFIGURATION;
 import br.stk.framework.db.management.AUTDBProcessDataFlow;
+import br.stk.framework.db.management.AUTDBProject;
 import br.stk.framework.db.management.AUTDBProjectExecutionsOverview;
 import br.stk.framework.db.management.AUTDBProjectsExecutionDetail;
+import br.stk.framework.gui.api.AUTAPIGUI.AUTProcessoParalelo;
 import br.stk.framework.gui.network.connectors.AUTNTWUtils;
 import br.stk.framework.tests.AUTFWKTestObjectBase.AUTBusinessObject;
 import junit.framework.JUnit4TestAdapter;
@@ -84,6 +87,7 @@ class AUTProcessRuntimeData{
 	TTypeObject extends java.lang.Enum<AUT_TYPE_OF_SUITE_OBJECTS>> boolean autRTIsSuperClass(TTypeClass classeObjeto,TTypeObject optionSelect) {
 		return ((autGetRTSuperClass(classeObjeto, optionSelect)!=null ? true : false));
 	} 
+
 	
 	public  static <TTypeClass extends br.stk.framework.tests.AUTFWKTestObjectBase.AUTBusinessObject<AUTFWKTestObjectBase>,
 	TTypeObject extends java.lang.Enum<AUT_TYPE_OF_SUITE_OBJECTS>> String autGetRTSuperClass(TTypeClass classeObjeto,TTypeObject optionSelect) {
@@ -91,32 +95,32 @@ class AUTProcessRuntimeData{
 		String nameOut = "";
 		java.util.regex.Pattern regExp = java.util.regex.Pattern.compile(optionSelect.toString());
 		boolean statusPesquisa = false;	
-			while(currentItem != null) {				
-				try {
-					nameOut = currentItem.getName();
-					java.util.regex.Matcher verifRegExp = regExp.matcher(nameOut);
-					if(verifRegExp.find()) {
-						System.out.println(String.format("AUT INFO: CLASS FOUND BY OBJECT: %s",optionSelect.name()));
-						System.out.println(nameOut);
-						statusPesquisa = true;
-						return verifRegExp.group();
-					}
-					currentItem = currentItem.getSuperclass();
-					
+		while(currentItem != null) {				
+			try {
+				nameOut = currentItem.getName();
+				java.util.regex.Matcher verifRegExp = regExp.matcher(nameOut);
+				if(verifRegExp.find()) {
+					System.out.println(String.format("AUT INFO: CLASS FOUND BY OBJECT: %s",optionSelect.name()));
+					System.out.println(nameOut);
+					statusPesquisa = true;
+					return verifRegExp.group();
 				}
-				catch(java.lang.NullPointerException e) {
-					currentItem = null;
-				}
-			}			
-			
-			if(!statusPesquisa) {
-				nameOut = null;
+				currentItem = currentItem.getSuperclass();
+
 			}
-			
-			return nameOut;
+			catch(java.lang.NullPointerException e) {
+				currentItem = null;
+			}
+		}			
+
+		if(!statusPesquisa) {
+			nameOut = null;
+		}
+
+		return nameOut;
 	}
 
-	
+
 
 	public static <TAUTObject extends AUTBusinessObject<AUTFWKTestObjectBase>> java.util.HashMap<String,Object> autGetRuntimeDataObjects(TAUTObject classObject,AUT_TYPE_OF_SUITE_OBJECTS typesOutput) throws IllegalArgumentException, IllegalAccessException{
 		java.util.HashMap<String,Object> dataObjs = new java.util.HashMap<String,Object>();
@@ -125,7 +129,7 @@ class AUTProcessRuntimeData{
 
 		java.util.regex.Matcher verifExp = null;
 		java.util.regex.Matcher verifTypeExp = null;
-		
+
 		for(java.lang.reflect.Field fld : classObject.getClass().getFields()) {
 			String name = fld.getName();
 			verifExp = regExp.matcher(name);
@@ -148,7 +152,7 @@ class AUTProcessRuntimeData{
 				System.out.println(fld.getType().getName());		
 				System.out.println("AUT INFO: DATA OBJECT : VALUE");
 				System.out.println(fld.get(classObject));	
-				
+
 				if(dataObjs.containsKey(name)) {
 					dataObjs.remove(name);
 					dataObjs.put(name, fld.get(classObject));
@@ -330,6 +334,7 @@ public class AUTFWKTestObjectBase extends AUTProcessRuntimeData{
 	public BrowserBaseState AUT_BASE_STATE_CONFIGURATION_BROWSER = null; //Objeto base de configuraçao do browser	
 	public java.util.List<String> AUT_LIST_PROJECTS_LOADER; //Lista de projetos corrente de projetos associados a execução atual
 	public AUTDBProjectsExecutionDetail AUT_PROJECT_EXECUTION_DETAIL_OBJ = null;
+	private AUTDBProject AUT_PROJECT_DB_MANAGER = null;
 	/**
 	 * Enumera as opções de configuração para expressões regulares de configuração, usadas na carga de parametros em empo 
 	 * 
@@ -378,7 +383,341 @@ public class AUTFWKTestObjectBase extends AUTProcessRuntimeData{
 	}
 
 
-	
+
+	/**
+	 * 
+	 * Gerenciamento do fluxo de execução
+	 * 
+	 * @author Softtek-QA
+	 *
+	 */
+	public static class AUTTestFlowManager{
+		/**
+		 * 
+		 * Define os status de cada processo executado via gerenciador de processos
+		 * 
+		 * @author Softtek-QA
+		 *
+		 */
+		public enum AUT_TEST_FLOW_STATE{
+			INIT,
+			PROCESS,
+			END;
+			
+			@Override
+			public String toString() {
+				switch(this) {
+				case END:{
+					return super.name();
+				}
+				case INIT:{
+					return super.name();
+				}
+				case PROCESS:{
+					return super.name();
+				}
+				default:{
+					return super.name();
+				}
+				}
+			}
+		}
+
+		/**
+		 * Classe para definição dos metódos de gerenciamento do fluxo de execução dos testes
+		 * 
+		 * @author Softtek-QA
+		 *
+		 */
+		public static abstract class AUTITestFlowProcess{		
+			private boolean startParalalelProcess = false; //Define se o processo 
+			private java.util.HashMap<String,AUTTestProcessDefinition> hsProcessFlows;
+			
+			/**
+			 * 
+			 * Retorna uma lista padrão de fluxos de execução
+			 * 
+			 * @return java.util.List<AUTTestProcessDefinition> - Lista de objetos do tipo br.stk.framework.tests.AUTFWKTestObjectBase.AUTTestFlowManager.AUTTestProcessDefinition
+
+
+			 */
+			public java.util.HashMap<String,AUTTestProcessDefinition> autGetNewListProcessDefinitions(){
+				try {
+					
+					hsProcessFlows = new java.util.HashMap<String,AUTTestProcessDefinition>();
+					
+					return hsProcessFlows;
+				}
+				catch(java.lang.Exception e) {
+					return null;
+				}
+			}
+			
+			/**
+			 * 
+			 * Função para inclusão de novos fluxos de execução na lista global de processos
+			 * 
+			 * @param keyFlow - Chave de pesquisa associada ao fluxo de execução
+			 * @param newFlow - Objeto que representa o fluxo de dados
+			 * 
+			 * @return boolean - Retorna true caso o processo seja finalizado com sucesso, false caso contrário.
+			 *
+			 */
+			public <TProcessFlow extends AUTTestProcessDefinition> boolean autIncludeNewProcessFlow(String keyFlow,TProcessFlow newFlow) {	
+				try {
+					System.out.println("AUT INFO: INCLUDE PROCESS FLOW TO LIST");
+					if(!autGetCurrentListProcessDefinitions().containsKey(keyFlow)) {
+						autGetCurrentListProcessDefinitions().put(keyFlow, newFlow);	
+					}
+					else {
+						System.out.println("AUT WARNING: NOT INCLUDE DUPLICATE KEY BY THIS LIST");
+						autGetCurrentListProcessDefinitions().remove(keyFlow);
+						autGetCurrentListProcessDefinitions().put(keyFlow, newFlow);						
+					}
+					
+					return true;
+				}
+				catch(java.lang.Exception e) {
+					System.out.println("AUT ERROR: INCLUDE PROCESS FLOW TO LIST");
+					System.out.println(e.getMessage());
+					e.printStackTrace();
+					
+					return false;
+				}
+			}
+			
+			
+			/**
+			 * 
+			 * Retorna a lista de fluxos de execução
+			 * 
+			 * @return java.util.List<AUTTestProcessDefinition> - Retorna a lista de fluxos de execução atualmente configuradas, caso seja nula inicializa automaticamente uma instancia da mesma.
+			 *
+			 */
+			public java.util.HashMap<String,AUTTestProcessDefinition> autGetCurrentListProcessDefinitions()
+			{
+				if(hsProcessFlows!=null) {
+					return hsProcessFlows;
+				}
+				else {
+					return autGetNewListProcessDefinitions();
+				}
+			}
+			
+			
+			
+			/**
+			 * 
+			 * Método executado na inicialização principal do projeto
+			 * 
+			 * @return boolean - Caso o processo seja finalizado com sucesso
+			 * 
+			 */
+			public abstract boolean autInitProcess();
+			
+			
+			/**
+			 * 
+			 * Método que executa o procedimento principal relacionado ao processo
+			 * 
+			 * @return boolean - True caso o processo seja finalizado com sucesso
+			 */
+			public abstract boolean autStartProcess();
+			
+			
+			/**
+			 * 
+			 * Metódo executado após a finalização do processamento principal
+			 * 
+			 * @return boolean - True caso o processo seja finalizado com sucesso
+			 * 
+			 */
+			public abstract boolean autEndProcess();
+			
+			
+			/**
+			 * Procedimento executado para sincronização de processo
+			 * 
+			 * @return boolean - True caso o processo seja finalizado com sucesso, false caso contrário
+			 * 
+			 */
+			public abstract boolean autSyncronizeProcess();
+			
+			/**
+			 * 
+			 * Procedimento executado em paralelo inicializado após o método principal de inicialização
+			 * 
+			 * @return boolean - Executa o procedimento paralelo
+			 */
+			private boolean autInitParalelProcess() {
+				try {
+					
+					autStartParalelProcess();
+					
+					return true;
+				}
+				catch(java.lang.Exception e) {
+					System.out.println("AUT ERROR: CONFIG INIT TREAD BY EXECUTION");
+					System.out.println(e.getMessage());
+					e.printStackTrace();
+					
+					return false;
+				}
+			}
+			
+
+			/**
+			 * 
+			 * Procedimento executado em paralelo inicializado após o método principal de inicialização
+			 * 
+			 * @return boolean - Executa o procedimento paralelo
+			 */
+			public abstract boolean autStartParalelProcess();
+
+			
+			/**
+			 * 
+			 * Inicializa do processo especificado, na ordem específica:
+			 * 
+			 *		autInitProcess();
+			 *		autSyncronizeProcess();
+			 *		autStartParalelProcess();
+			 *		autStartProcess();
+			 *		autSyncronizeProcess();
+			 *		autEndProcess();
+			 *		autSyncronizeProcess();
+			 * 
+			 * 
+			 * @return boolean - True caso o processo seja finalizado com sucesso false caso contrário
+			 * 
+			 */
+			public boolean autStartProcessExecutionFlow() {
+				try {				
+					System.out.println("AUT INFO : START EXECUTION FLOW : INIT");
+					autInitProcess();
+					autSyncronizeProcess();
+					autInitParalelProcess();
+					autStartProcess();
+					autSyncronizeProcess();
+					autEndProcess();
+					autSyncronizeProcess();
+					System.out.println("AUT INFO : START EXECUTION FLOW : END");				
+					return true;
+				}
+				catch(java.lang.Exception e) {
+					System.out.println("AUT ERROR: START PROCESS FLOW");
+					System.out.println(e.getMessage());
+					e.printStackTrace();
+					
+					return false;
+				}
+			}
+			
+			public boolean autStartAllProcessExecutionFlow()
+			{
+				try {
+					System.out.println("\n\n** AUT INFO: START ALL PROCESS EXECUTION FLOW : INIT");
+					java.util.HashMap<String,AUTTestProcessDefinition> testsFlow = autGetCurrentListProcessDefinitions();
+					for(String flowKey: testsFlow.keySet()) {
+						System.out.println(String.format("\n******* AUT INFO: GET KEY BY FLOW : %s",flowKey));
+						testsFlow.get(flowKey).autStartProcessExecutionFlow();
+						System.out.println(String.format("AUT INFO: START FLOW BY KEY: %s",flowKey));
+					}										
+					System.out.println("\n\n***AUT INFO: START ALL PROCESS EXECUTION FLOW : END");
+					
+					return true;
+				}
+				catch(java.lang.Exception e) {
+					System.out.println("AUT ERROR: START ALL PROCESS EXECUTION FLOW");
+					System.out.println(e.getMessage());
+					e.printStackTrace();					
+					return false;
+				}
+			}
+		}
+		
+		/**
+		 * 
+		 * Definição do processo que pode ser executado via - AUTTestFlowManager - Classe para gerenciamento dos testes
+		 * 
+		 * @author Softtek-QA
+		 *
+		 */
+		public static class AUTTestProcessDefinition extends AUTITestFlowProcess{			
+			private String nameProcess = null;
+			private String descriptionProcess = null;
+			private AUT_TEST_FLOW_STATE statProcess = AUT_TEST_FLOW_STATE.INIT;
+			
+			@Override
+			public boolean autInitProcess() {
+				// TODO Auto-generated method stub
+				System.out.println("AUT INFO: autInitProcess - NÃO IMPLEMENTADA");
+				return false;
+			}
+			@Override
+			public boolean autStartProcess() {
+				// TODO Auto-generated method stub
+				System.out.println("AUT INFO: autInitProcess - NÃO IMPLEMENTADA");
+				
+				return false;
+			}
+			@Override
+			public boolean autEndProcess() {
+				// TODO Auto-generated method stub
+				
+				System.out.println("AUT INFO: autEndProcess - NÃO IMPLEMENTADA");
+				
+				
+				return false;
+			}
+			@Override
+			public boolean autSyncronizeProcess() {
+				// TODO Auto-generated method stub
+				System.out.println("AUT INFO: autSyncronizeProcess - NÃO IMPLEMENTADA");
+				
+				return false;
+			}
+			
+			@Override
+			public boolean autStartParalelProcess() {
+				// TODO Auto-generated method stub
+				System.out.println("AUT INFO: autStartParalelProcess - FUNCIONALIDADE NÃO IMPEMENTADA");				
+				return false;
+			}			
+		}
+
+		/**
+		 * 
+		 * Inicia os fluxos de execução pré configurados
+		 * 
+		 * @return boolean - Retorna true caso o processo seja finalizado com sucesso, false caso contrário.
+		 */
+		public boolean autInitFlowExecution() {
+			try {
+				System.out.println("AUT INFO: INIT FLOW TEST MANAGER : INIT");
+
+				System.out.println("AUT INFO: FUNCIONALIDADE AINDA NÃO IMPLEMENTADA");
+
+				System.out.println("AUT INFO: INIT FLOW TEST MANAGER : END");				
+				return true;
+			}
+			catch(java.lang.Exception e) {
+				System.out.println("AUT ERROR: INIT FLOW TEST MANAGER");
+				System.out.println(e.getMessage());
+				e.printStackTrace();				
+				return false;
+			}
+		}
+
+		/**
+		 * 
+		 * Construtor padrão
+		 * 
+		 */
+		public AUTTestFlowManager() {
+
+		}
+	}
 
 
 
@@ -405,12 +744,12 @@ public class AUTFWKTestObjectBase extends AUTProcessRuntimeData{
 		private Object AUT_VALUE = null;
 		java.util.HashMap<String, String> hashData = null;
 		TFrameworkObject dataManagement = null;
-		
+
 		public java.util.HashMap<String,Object> autGetRuntimeData(){
 			dataManagement = (TFrameworkObject) new AUTFWKTestObjectBase();
 			return dataManagement.autGetRuntimeDataObject(this, AUT_TYPE_OF_SUITE_OBJECTS.AUT_ALL_OBJECT);
 		}
-		
+
 		/**
 		 * 
 		 * Desabilita a sincronização de dados com o banco de dados para o parametros
@@ -476,6 +815,7 @@ public class AUTFWKTestObjectBase extends AUTProcessRuntimeData{
 		public String AUT_SYSTEM = null;
 		public String AUT_INDEX_EXECUTION = null;
 		public Object AUT_DATAFLOW_SEARCH_KEY = null;
+		public String AUT_SCENARIO_FULL_NAME_RUNTIME = null;
 		/**
 		 * 
 		 * Retorna o dígito numérico relacionado ao ID do projeto
@@ -824,6 +1164,7 @@ public class AUTFWKTestObjectBase extends AUTProcessRuntimeData{
 	public <TDataFlowItem extends AUTDBProcessDataFlow> TDataFlowItem autGetDataFlowDBIntegration() {
 		return (TDataFlowItem)new AUTDBProcessDataFlow();
 	}
+	
 	/**
 	 * 
 	 * Retorna o objeto de gerenciamento para execuções dos projetos - Execução resumidas por frente de negócio
@@ -842,7 +1183,6 @@ public class AUTFWKTestObjectBase extends AUTProcessRuntimeData{
 			String projectId = autGetCurrentScenarioRuntime().autGetIdNumber();
 			String scenarioId = autGetCurrentScenarioRuntime().AUT_SCENARIO_FULL_NAME;
 			autTestExecProcessDataBase(optionState.toString(), new Object[] {scenarioId,projectId});
-			autSyncronizeScreen();
 			System.out.println("AUT INFO: SYNC STATE FOR EXECUTION : END");
 			return true;
 		}
@@ -859,7 +1199,6 @@ public class AUTFWKTestObjectBase extends AUTProcessRuntimeData{
 		try {
 			System.out.println("AUT TEST OBJECT : PROCESS UPDATE PROJECTS BY IDS : START");
 			autGetProjectManagerOverview().autExecSubStatementsDefault(sqlDefinition.toString(),parameters);
-			autSyncronizeScreen();
 			System.out.println("AUT TEST OBJECT : PROCESS UPDATE PROJECTS BY IDS : END");
 		}
 		catch(java.lang.Exception e) {
@@ -936,6 +1275,7 @@ public class AUTFWKTestObjectBase extends AUTProcessRuntimeData{
 						}			
 					}
 				}
+				rtmScn.AUT_SCENARIO_FULL_NAME_RUNTIME = System.getenv("USERDOMAIN").concat("_").concat(rtmScn.AUT_SCENARIO_FULL_NAME);
 				outScenario = String.format(outScenario,value).toUpperCase();		
 				rtmScn.autPrintData();
 				return (TScenarioConfig) rtmScn;
@@ -1145,6 +1485,35 @@ public class AUTFWKTestObjectBase extends AUTProcessRuntimeData{
 		}
 	}
 
+	
+	/**
+	 * 
+	 * Retorna o componente para gerenciamento do banco de dados
+	 * 
+	 * @return AUTDBProject - Classe base para gerenciamento do projeto
+	 * 
+	 */
+	public <TProjectDB extends AUTDBProject> TProjectDB autGetProjectManagerDB() {
+		try {
+			System.out.println("AUT INFO  : START PROJECT MANAGER BY COMPONENT : INIT");
+			if(AUT_PROJECT_DB_MANAGER==null) {
+				AUT_PROJECT_DB_MANAGER = new AUTDBProject();
+				return (TProjectDB) AUT_PROJECT_DB_MANAGER;
+			}
+			else {
+				return (TProjectDB) AUT_PROJECT_DB_MANAGER;
+			}
+		}
+		catch(java.lang.Exception e) {
+			System.out.println("AUT ERROR: START PROJECT MANAGER BY COMPONENT");
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	
+	
 	/**
 	 * Inclusão uma nova imagem de sincronização do status de execução durante o processo de configuração
 	 * 

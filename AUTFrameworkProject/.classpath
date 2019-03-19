@@ -103,5 +103,6 @@
 	<classpathentry kind="lib" path="Resources/JVM/org-openide-util.jar"/>
 	<classpathentry kind="lib" path="Resources/JVM/xerces-2_6_2.jar"/>
 	<classpathentry kind="lib" path="Resources/JVM/org-openide-util-lookup.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Administrador/Downloads/com.google.protobuf-2.4.0.jar.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

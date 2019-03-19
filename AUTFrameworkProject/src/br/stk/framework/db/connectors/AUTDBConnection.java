@@ -103,8 +103,14 @@ public class AUTDBConnection extends AUTDBUtils{
 				break;
 			}
 			case MYSQL:{
-				
-				connection = autConnectMYSQL(host, port, dataBase, user, pwd);
+				if(connection==null) {
+					connection = autConnectMYSQL(host, port, dataBase, user, pwd);
+				}
+				else {
+					if(connection.isClosed() || !connection.isValid(0)) {
+						connection = autConnectMYSQL(host, port, dataBase, user, pwd);
+					}
+				}
 				
 				break;
 			}
