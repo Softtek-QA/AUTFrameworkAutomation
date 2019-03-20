@@ -41,12 +41,20 @@ public class AUTDBProcessDataFlow extends AUTDBProject {
 		DELETE_DATAFLOW_PARAMETER_BY_PROJECT,
 		DETETE_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO,
 		SELECT_DATAFLOW_PARAMETER_BY_PROJECT,
-		SELECT_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO_AND_COLUMN_NAME;		
+		SELECT_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO_AND_COLUMN_NAME,
+		CONDITION_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO_AND_COLUMN_DATAFLOWKEY,
+		UPDATE_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO_AND_COLUMN_NAME;		
 		@Override
 		public String toString() {
 			switch(this) {
 			case SELECT_DATAFLOW_PARAMETER_BY_PROJECT:{
 				return " where pjt_id=?";
+			}
+			case UPDATE_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO_AND_COLUMN_NAME:{
+				return " where pjt_id=? and drv_process_name=? and drv_parameter_name=? and drv_process_name like ?;";
+			}
+			case CONDITION_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO_AND_COLUMN_DATAFLOWKEY:{
+				return " where pjt_id=? and drv_process_name=? and drv_parameter_name=? and drv_process_name like ?;";
 			}
 			case SELECT_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO_AND_COLUMN_NAME:{
 				return " where pjt_id=? and drv_process_name=? and drv_parameter_name=?;";
@@ -115,6 +123,21 @@ public class AUTDBProcessDataFlow extends AUTDBProject {
 		DRV_ROW
 	}
 
+	public static enum AUT_SQL_RANDOM_PROPERTIES_DYNAMIC{
+		CUSTOM_FIELD;
+
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			switch(this) {
+			case CUSTOM_FIELD:{
+				return "customField".concat(new java.util.Random(999999).toString());
+			}
+			}
+			return super.toString();
+		}
+	}
+
 	public static enum AUT_TYPE_FIELD_DATAFLOW{
 		KEY,
 		ROW,
@@ -156,6 +179,7 @@ public class AUTDBProcessDataFlow extends AUTDBProject {
 		AUT_DELETE_PARAMETERS,
 		AUT_DELETE_PARAMETERS_BY_SCENARIO,
 		SELECT_PARAMETER_BY_PROJECT_AND_SCENARIO,
+		SELECT_PARAMETER_BY_PROJECT_AND_SCENARIO2,
 		AUT_SELECT_ALL_PARAMETERS,
 		AUT_SELECT_PARAMETERS_BY_SCENARIO,
 		AUT_SELECT_PARAMETERS_BY_NAME,
@@ -174,7 +198,10 @@ public class AUTDBProcessDataFlow extends AUTDBProject {
 				return "update lry.aut_projects_process_datadrivers set %s=? ";
 			}
 			case SELECT_PARAMETER_BY_PROJECT_AND_SCENARIO:{
-				return "select * from lry.aut_projects_process_datadrivers where (pjt_id=? and drv_process_name like ?) or (drv_process_description like ? and drv_process_description like ?)";
+				return "select * from lry.aut_projects_process_datadrivers where (pjt_id=? and drv_process_name like ?)";
+			}
+			case SELECT_PARAMETER_BY_PROJECT_AND_SCENARIO2:{
+				return "select * from lry.aut_projects_process_datadrivers where (pjt_id=? and drv_process_name like ?) or (drv_process_description like ? and drv_process_name like ?)";
 			}
 			case SELECT_PARAMETER:{
 				return "select * from lry.aut_projects_process_datadrivers %s";
@@ -288,6 +315,10 @@ public class AUTDBProcessDataFlow extends AUTDBProject {
 		return new java.util.AbstractMap.SimpleEntry<br.stk.framework.db.management.AUTDBProcessDataFlow.AUT_SQL_PROPERTIES, Object>(br.stk.framework.db.management.AUTDBProcessDataFlow.AUT_SQL_PROPERTIES.PJT_ID,autGetDefaultObject());
 	}
 
+	public java.util.AbstractMap.SimpleEntry<java.lang.Enum, Object> autGetEmptyField(){
+		return new java.util.AbstractMap.SimpleEntry<java.lang.Enum, Object>(AUT_SQL_RANDOM_PROPERTIES_DYNAMIC.CUSTOM_FIELD,autGetDefaultObject());
+	}
+
 	/**
 	 * 
 	 * Retorna a data e hora padrão do sistema de banco de dados
@@ -353,7 +384,12 @@ public class AUTDBProcessDataFlow extends AUTDBProject {
 			item.setValue(parameters.get("COLUMN_TARGET"));			
 			parametersConditions.add(item);
 
-			autDBParameterManagerDataFlow(AUT_SQL_OPERATIONS_PROCESS_PARAMETERS.UPDATE_PARAMETER, null, AUT_SQL_OPERATIONS_CONDITIONS.SELECT_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO_AND_COLUMN_NAME, parametersInput, parametersConditions);
+
+			item = autGetNameParameter();
+			item.setValue("%".concat(System.getenv("USERDOMAIN")).concat("%"));			
+			parametersConditions.add(item);
+
+			autDBParameterManagerDataFlow(AUT_SQL_OPERATIONS_PROCESS_PARAMETERS.UPDATE_PARAMETER, null, AUT_SQL_OPERATIONS_CONDITIONS.UPDATE_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO_AND_COLUMN_NAME, parametersInput, parametersConditions);
 			System.out.println("AUT INFO : UPDATE PROCESS: END");
 
 			return true;
@@ -467,8 +503,8 @@ public class AUTDBProcessDataFlow extends AUTDBProject {
 		parameters.put("PROCESS_NAME", scenario.AUT_SCENARIO_FULL_NAME_RUNTIME);
 		parameters.put("AUT_SQL_COMMAND", AUT_SQL_OPERATIONS_PROCESS_PARAMETERS.SELECT_PARAMETER_BY_PROJECT_AND_SCENARIO.name());
 		parameters.put("CURRENT_SCENARIO_OBJECT",scenario);
-		parameters.put("AUT_HOST_EXECUTION", System.getenv("USERDOMAIN"));
-		
+		parameters.put("AUT_HOST_EXECUTION", "%".concat(System.getenv("USERDOMAIN")).concat("%"));
+
 		return autFormatOutputByDataflow(autSelectValuesByParameters(parameters));
 	}
 
@@ -484,7 +520,7 @@ public class AUTDBProcessDataFlow extends AUTDBProject {
 					parameterUpload.put("PROJECT_ID", idProj);
 					parameterUpload.put("PROCESS_NAME", process.AUT_SCENARIO_FULL_NAME_RUNTIME);
 					parameterUpload.put("PROCESS_DESCRIPTION", process.AUT_SCENARIO_FULL_NAME.concat(" : ".concat(op.name())));
-					
+
 					for(Integer row : parameters.keySet()) {
 						for(String colName: parameters.get(row).keySet()) {
 							parameterUpload.put("PARAMETER_NAME", colName);
@@ -554,23 +590,31 @@ public class AUTDBProcessDataFlow extends AUTDBProject {
 				item = new java.util.AbstractMap.SimpleEntry<AUT_SQL_PROPERTIES,Object>(AUT_SQL_PROPERTIES.DRV_PARAMETER_NAME,new Object());						
 				item.setValue(parameters.get("COLUMN_NAME_DATAFLOW"));			
 				parametersConditions.add(item);
-				
+
 			}
 
 			if(parameters.containsKey(sqlCommand)) {
-				
-				item = autGetProcessDescriptionParameter();
-				AUTRuntimeExecutionScenario scn = (AUTRuntimeExecutionScenario)parameters.get("CURRENT_SCENARIO_OBJECT");
-				java.lang.Enum op = (java.lang.Enum)scn.AUT_DATAFLOW_SEARCH_KEY;
-				item.setValue("%".concat(op.name()).concat("%"));			
-				parametersConditions.add(item);
-				
-				item.setValue("%".concat(parameters.get("AUT_HOST_EXECUTION").toString()).concat("%"));			
-				parametersConditions.add(item);
-				
-				
-				
-				paramsOut = (HashMap<Integer, HashMap<String, Object>>) autDBParameterManagerDataFlow(AUT_SQL_OPERATIONS_PROCESS_PARAMETERS.SELECT_PARAMETER_BY_PROJECT_AND_SCENARIO, null, AUT_SQL_OPERATIONS_CONDITIONS.SELECT_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO_AND_COLUMN_NAME, parametersInput, parametersConditions);				
+
+				AUTRuntimeExecutionScenario scn = (AUTRuntimeExecutionScenario)parameters.get("CURRENT_SCENARIO_OBJECT");				
+
+				if(scn.AUT_ENABLE_SEARCH_DATAFLOW_FROM_ALL_SCENARIOS_TO_PROJECT) {
+					item = autGetProcessDescriptionParameter();
+
+					java.lang.Enum op = (java.lang.Enum)scn.AUT_DATAFLOW_SEARCH_KEY;
+					item.setValue("%".concat(op.name()).concat("%"));			
+					parametersConditions.add(item);
+
+
+					item = autGetNameParameter();
+					item.setValue(parameters.get("AUT_HOST_EXECUTION").toString());			
+					parametersConditions.add(item);
+
+					paramsOut = (HashMap<Integer, HashMap<String, Object>>) autDBParameterManagerDataFlow(AUT_SQL_OPERATIONS_PROCESS_PARAMETERS.SELECT_PARAMETER_BY_PROJECT_AND_SCENARIO2, null, AUT_SQL_OPERATIONS_CONDITIONS.SELECT_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO_AND_COLUMN_NAME, parametersInput, parametersConditions);				
+				}
+				else {
+					paramsOut = (HashMap<Integer, HashMap<String, Object>>) autDBParameterManagerDataFlow(AUT_SQL_OPERATIONS_PROCESS_PARAMETERS.SELECT_PARAMETER_BY_PROJECT_AND_SCENARIO, null, AUT_SQL_OPERATIONS_CONDITIONS.SELECT_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO_AND_COLUMN_NAME, parametersInput, parametersConditions);									
+				}
+
 			}
 			else {
 				paramsOut = (HashMap<Integer, HashMap<String, Object>>) autDBParameterManagerDataFlow(AUT_SQL_OPERATIONS_PROCESS_PARAMETERS.SELECT_PARAMETER, null, AUT_SQL_OPERATIONS_CONDITIONS.SELECT_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO_AND_COLUMN_NAME, parametersInput, parametersConditions);				
@@ -808,6 +852,9 @@ public class AUTDBProcessDataFlow extends AUTDBProject {
 				return autGetDataTableByProperties(String.format(sqlFunction.toString(),condition.toString()),AUT_SQL_PROPERTIES.class,valuesParameters);
 			}
 			case SELECT_PARAMETER_BY_PROJECT_AND_SCENARIO:{
+				return autGetDataTableByProperties(String.format(sqlFunction.toString(),condition.toString()),AUT_SQL_PROPERTIES.class,valuesParameters);				
+			}
+			case SELECT_PARAMETER_BY_PROJECT_AND_SCENARIO2:{
 				return autGetDataTableByProperties(String.format(sqlFunction.toString(),condition.toString()),AUT_SQL_PROPERTIES.class,valuesParameters);				
 			}
 			default:{

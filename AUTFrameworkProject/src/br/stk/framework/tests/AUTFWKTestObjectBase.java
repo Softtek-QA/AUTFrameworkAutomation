@@ -816,6 +816,7 @@ public class AUTFWKTestObjectBase extends AUTProcessRuntimeData{
 		public String AUT_INDEX_EXECUTION = null;
 		public Object AUT_DATAFLOW_SEARCH_KEY = null;
 		public String AUT_SCENARIO_FULL_NAME_RUNTIME = null;
+		public Boolean AUT_ENABLE_SEARCH_DATAFLOW_FROM_ALL_SCENARIOS_TO_PROJECT = false;
 		/**
 		 * 
 		 * Retorna o dígito numérico relacionado ao ID do projeto
