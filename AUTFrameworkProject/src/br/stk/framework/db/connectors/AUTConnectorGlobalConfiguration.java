@@ -13,11 +13,11 @@ import br.stk.framework.db.management.AUTDBSessionsUsers;
  *
  */
 public class AUTConnectorGlobalConfiguration {
-	public static String AUT_MYSQL_SERVER = "192.168.0.101"; //Variável global de configuração do IP de serviço para banco de dados MYSQL
+	public static String AUT_MYSQL_SERVER = "172.22.30.4"; //Variável global de configuração do IP de serviço para banco de dados MYSQL
 	public static String AUT_SQL_SERVER = "localhost"; //Variável global de configuração do IP de serviço para banco de dados MYSQL
 	public static String AUT_JAVA_DERBY_SERVER = "localhost"; //Variável global de configuração do IP de serviço para banco de dados MYSQL
 	public static String AUT_H2_SERVER = "mphst001"; //Variável global de configuração do IP de serviço para banco de dados MYSQL
-	public static String AUT_MYSQL_PORT_CONNECT = "3306"; //Porta de conexão mysql
+	public static String AUT_MYSQL_PORT_CONNECT = "4001"; //Porta de conexão mysql
 	public static String AUT_SQL_SERVER_PORT_CONNECT = "1422"; //Porta de conexão sql server
 	public static String AUT_JAVA_DERBY_PORT_CONNECT = "65000"; //Porta de conexão java derby
 	public static String AUT_JAVA_H2_PORT_CONNECT = "65001"; //porta de conexão java H2

@@ -43,15 +43,19 @@ public class AUTDBProcessDataFlow extends AUTDBProject {
 		SELECT_DATAFLOW_PARAMETER_BY_PROJECT,
 		SELECT_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO_AND_COLUMN_NAME,
 		CONDITION_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO_AND_COLUMN_DATAFLOWKEY,
-		UPDATE_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO_AND_COLUMN_NAME;		
+		UPDATE_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO_AND_COLUMN_NAME,
+		UPDATE_DATAFLOW_PARAMETER_BY_PROJECT_AND_COLUMN_NAME;		
 		@Override
 		public String toString() {
 			switch(this) {
+			case UPDATE_DATAFLOW_PARAMETER_BY_PROJECT_AND_COLUMN_NAME:{
+				return " where pjt_id=? and drv_process_name like ? and drv_parameter_name=?;";
+			}
 			case SELECT_DATAFLOW_PARAMETER_BY_PROJECT:{
 				return " where pjt_id=?";
 			}
 			case UPDATE_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO_AND_COLUMN_NAME:{
-				return " where pjt_id=? and drv_process_name=? and drv_parameter_name=? and drv_process_name like ?;";
+				return " where pjt_id=? and drv_process_name like ? and drv_parameter_name=? and drv_process_name like ?;";
 			}
 			case CONDITION_DATAFLOW_PARAMETER_BY_PROJECT_AND_SCENARIO_AND_COLUMN_DATAFLOWKEY:{
 				return " where pjt_id=? and drv_process_name=? and drv_parameter_name=? and drv_process_name like ?;";
@@ -249,6 +253,8 @@ public class AUTDBProcessDataFlow extends AUTDBProject {
 	public java.util.HashMap<Integer,java.util.HashMap<String,Object>> autGetParameterFromDataBase(){		
 		return null;
 	}
+	
+	
 	/**
 	 * 
 	 * 	
@@ -374,11 +380,13 @@ public class AUTDBProcessDataFlow extends AUTDBProject {
 			item = autGetProjectIdParameter();
 			item.setValue(parameters.get("PROJECT_ID"));
 			parametersConditions.add(item);
+			
 
+			
 			item = autGetProcessNameParameter();
 			item.setValue(parameters.get("PROCESS_NAME"));			
 			parametersConditions.add(item);
-
+			
 
 			item = autGetNameParameter();
 			item.setValue(parameters.get("COLUMN_TARGET"));			
@@ -498,9 +506,10 @@ public class AUTDBProcessDataFlow extends AUTDBProject {
 	 */
 	public java.util.HashMap<Integer,java.util.HashMap<String,Object>> autGetDataFlowFromDataBaseDownload(String idProject,AUTRuntimeExecutionScenario scenario){
 		java.util.HashMap<String,Object> parameters = new java.util.HashMap<String,Object>();
-
+		java.lang.Enum op = (java.lang.Enum)scenario.AUT_DATAFLOW_SEARCH_KEY;
+		
 		parameters.put("PROJECT_ID", idProject);
-		parameters.put("PROCESS_NAME", scenario.AUT_SCENARIO_FULL_NAME_RUNTIME);
+		parameters.put("PROCESS_NAME", scenario.AUT_SCENARIO_FULL_NAME_RUNTIME.concat(":".concat(op.name())));
 		parameters.put("AUT_SQL_COMMAND", AUT_SQL_OPERATIONS_PROCESS_PARAMETERS.SELECT_PARAMETER_BY_PROJECT_AND_SCENARIO.name());
 		parameters.put("CURRENT_SCENARIO_OBJECT",scenario);
 		parameters.put("AUT_HOST_EXECUTION", "%".concat(System.getenv("USERDOMAIN")).concat("%"));
@@ -518,8 +527,8 @@ public class AUTDBProcessDataFlow extends AUTDBProject {
 					Integer idProj = Integer.parseInt(verif.group());
 					java.lang.Enum op = (Enum) process.AUT_DATAFLOW_SEARCH_KEY;
 					parameterUpload.put("PROJECT_ID", idProj);
-					parameterUpload.put("PROCESS_NAME", process.AUT_SCENARIO_FULL_NAME_RUNTIME);
-					parameterUpload.put("PROCESS_DESCRIPTION", process.AUT_SCENARIO_FULL_NAME.concat(" : ".concat(op.name())));
+					parameterUpload.put("PROCESS_NAME", process.AUT_SCENARIO_FULL_NAME_RUNTIME.concat(":".concat(op.name())));
+					parameterUpload.put("PROCESS_DESCRIPTION", process.AUT_SCENARIO_FULL_NAME.concat(":".concat(op.name())));
 
 					for(Integer row : parameters.keySet()) {
 						for(String colName: parameters.get(row).keySet()) {

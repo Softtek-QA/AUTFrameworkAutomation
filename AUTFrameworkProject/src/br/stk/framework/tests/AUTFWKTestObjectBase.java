@@ -335,6 +335,7 @@ public class AUTFWKTestObjectBase extends AUTProcessRuntimeData{
 	public java.util.List<String> AUT_LIST_PROJECTS_LOADER; //Lista de projetos corrente de projetos associados a execução atual
 	public AUTDBProjectsExecutionDetail AUT_PROJECT_EXECUTION_DETAIL_OBJ = null;
 	private AUTDBProject AUT_PROJECT_DB_MANAGER = null;
+	public AUTDBProcessDataFlow dataFlowManager = null;
 	/**
 	 * Enumera as opções de configuração para expressões regulares de configuração, usadas na carga de parametros em empo 
 	 * 
@@ -1163,8 +1164,15 @@ public class AUTFWKTestObjectBase extends AUTProcessRuntimeData{
 	 * @return AUTDBProcessDataFlow - Interface DataFlow
 	 */
 	public <TDataFlowItem extends AUTDBProcessDataFlow> TDataFlowItem autGetDataFlowDBIntegration() {
-		return (TDataFlowItem)new AUTDBProcessDataFlow();
+		if(dataFlowManager==null) {
+			dataFlowManager = new AUTDBProcessDataFlow();
+			return (TDataFlowItem)dataFlowManager;
+		}
+		else {
+			return (TDataFlowItem) dataFlowManager;
+		}		
 	}
+	
 	
 	/**
 	 * 
