@@ -12,9 +12,6 @@
 	<classpathentry kind="lib" path="Resources/AUTJavaDerby/derbytools.jar"/>
 	<classpathentry kind="lib" path="Resources/AUTJavaH2/h2-1.4.196.jar"/>
 	<classpathentry kind="lib" path="Resources/AUTMySQL/mysql-connector-java-8.0.11.jar"/>
-	<classpathentry kind="lib" path="Resources/AUTSilk/com.borland.silktest.jtf.javadoc_18.5.0.9630.jar"/>
-	<classpathentry kind="lib" path="Resources/AUTSilk/com.borland.silktest.silk4j.doc_18.5.0.jar"/>
-	<classpathentry kind="lib" path="Resources/AUTSilk/com.borland.silktest.silk4j.jar"/>
 	<classpathentry kind="lib" path="Resources/AUTSilk/silktest-jtf-nodeps.jar"/>
 	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-api-caching.jar"/>
 	<classpathentry kind="lib" path="Resources/AUTJAVALIB/com-sun-tools-visualvm-application-views.jar"/>
