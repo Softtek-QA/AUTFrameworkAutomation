@@ -336,6 +336,7 @@ public class AUTFWKTestObjectBase extends AUTProcessRuntimeData{
 	public AUTDBProjectsExecutionDetail AUT_PROJECT_EXECUTION_DETAIL_OBJ = null;
 	private AUTDBProject AUT_PROJECT_DB_MANAGER = null;
 	public AUTDBProcessDataFlow dataFlowManager = null;
+	public static Boolean AUT_DB_CONNECTION_OFFLINE = false;
 	/**
 	 * Enumera as opções de configuração para expressões regulares de configuração, usadas na carga de parametros em empo 
 	 * 
