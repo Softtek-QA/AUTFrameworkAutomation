@@ -11,6 +11,7 @@ import java.util.Map;
 import com.borland.silktest.jtf.BaseState;
 import com.borland.silktest.jtf.BrowserBaseState;
 import com.borland.silktest.jtf.Desktop;
+import com.borland.silktest.jtf.Window;
 
 import br.stk.framework.api.AUTAPI.AUTProcessoExternoUtils;
 import br.stk.framework.db.connectors.AUTConnectorGlobalConfiguration.AUT_GLOBAL_CONFIGURATION;
@@ -337,6 +338,11 @@ public class AUTFWKTestObjectBase extends AUTProcessRuntimeData{
 	private AUTDBProject AUT_PROJECT_DB_MANAGER = null;
 	public AUTDBProcessDataFlow dataFlowManager = null;
 	public static Boolean AUT_DB_CONNECTION_OFFLINE = false;
+	
+	public String SAP_PAPH = "C:/Program Files/SAP/FrontEnd/SAPgui/saplogon.exe";
+	public String SAP_LOCATOR = "//Window[@caption='SAP Logon 730']";
+
+	
 	/**
 	 * Enumera as opções de configuração para expressões regulares de configuração, usadas na carga de parametros em empo 
 	 * 
