@@ -1348,15 +1348,15 @@ public class AUTFWKTestObjectBase extends AUTProcessRuntimeData{
 		try {
 			Date dt = new Date();
 			String fileName = "AUT_".concat(dt.toInstant().toString().replaceAll("\\W", "")).concat(".png");		
-			System.out.println("FWK OBJECT : INFO : SYNCRONIZE SCREEN : INIT");
+			//System.out.println("FWK OBJECT : INFO : SYNCRONIZE SCREEN : INIT");
 			String dirOut = autGetDefaultDirOutputFiles();
 			String FileOut = "%s\\%s";
 			String fileNameFull = String.format(FileOut,dirOut,fileName);
 			String fileNameOutSilk = autGetDesktopAgent().captureBitmap(String.format(FileOut,dirOut,fileName));
 			byte[] bytesOut = java.nio.file.Files.readAllBytes(java.nio.file.Paths.get(fileNameOutSilk));
-			System.out.println(fileNameOutSilk);
+			//System.out.println(fileNameOutSilk);
 
-			System.out.println("FWK OBJECT : INFO : SYNCRONIZE SCREEN : END");
+			//System.out.println("FWK OBJECT : INFO : SYNCRONIZE SCREEN : END");
 
 			return bytesOut;
 		}
@@ -1536,10 +1536,12 @@ public class AUTFWKTestObjectBase extends AUTProcessRuntimeData{
 	 * @return boolean - True caso o processo seja finalizado com sucesso false caso contrário
 	 */
 	public boolean autInsertScreenByScenario() {		
-		String projectId = autGetCurrentScenarioRuntime().autGetIdNumber();
-		String scenarioName = autGetCurrentScenarioRuntime().AUT_SCENARIO_FULL_NAME;
-
-		autInsertScreenByScenario(projectId, scenarioName);
+//		String projectId = autGetCurrentScenarioRuntime().autGetIdNumber();
+//		String scenarioName = autGetCurrentScenarioRuntime().AUT_SCENARIO_FULL_NAME;
+//
+//		autInsertScreenByScenario(projectId, scenarioName);
+		
+		autSyncronizeScreen();
 
 		return true;
 	}
